@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lácteos Casillas</title>
+  <!-- Fuente cool para el toque moderno -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+  <style>
+    /* ==============================
+       Reset Global y Variables
+       ============================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --royal-blue: #4169E1;
+      --white: #ffffff;
+      --light-gray: #f4f4f4;
+      --dark: #333333;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--white);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+    
+    /* ==============================
+       Header
+       ============================== */
+    header {
+      width: 100%;
+      background-color: var(--royal-blue);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    header nav ul {
+      list-style: none;
+      display: flex;
+    }
+    header nav ul li {
+      margin-left: 30px;
+    }
+    header nav ul li a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    header nav ul li a:hover {
+      color: var(--light-gray);
+    }
+    
+    /* ==============================
+       Sección Hero
+       ============================== */
+    .hero {
+      height: 100vh;
+      /* Fondo con imagen de lácteos y overlay para que el texto resalte */
+      background: linear-gradient(rgba(65,105,225,0.8), rgba(65,105,225,0.8)), url('https://source.unsplash.com/1600x900/?dairy') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--white);
+      padding-top: 80px; /* para no quedar tapado por el header fijo */
+      animation: fadeIn 2s ease-in-out;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      animation: slideDown 1.5s ease-out;
+    }
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 40px;
+      animation: slideUp 1.5s ease-out;
+    }
+    .hero .btn {
+      background-color: var(--white);
+      color: var(--royal-blue);
+      padding: 15px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+    .hero .btn:hover {
+      transform: scale(1.1);
+      background-color: #e6e6e6;
+    }
+    
+    /* ==============================
+       Sección de Productos/Destacados
+       ============================== */
+    .features {
+      padding: 80px 40px;
+      background-color: var(--white);
+      text-align: center;
+    }
+    .features h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: var(--royal-blue);
+      animation: fadeIn 2s ease-in-out;
+    }
+    .features .cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .features .card {
+      background-color: var(--light-gray);
+      border-radius: 10px;
+      width: 300px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .features .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .features .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .features .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--royal-blue);
+    }
+    .features .card p {
+      font-size: 1rem;
+      color: var(--dark);
+    }
+    
+    /* ==============================
+       Footer
+       ============================== */
+    footer {
+      background-color: var(--royal-blue);
+      color: var(--white);
+      text-align: center;
+      padding: 20px;
+    }
+    
+    /* ==============================
+       Animaciones
+       ============================== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    /* ==============================
+       Responsividad
+       ============================== */
+    @media(max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      header nav ul {
+        flex-direction: column;
+        margin-top: 10px;
+      }
+      header nav ul li {
+        margin: 10px 0;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1.2rem;
+      }
+      .features .cards {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">Lácteos Casillas</div>
+    <nav>
+      <ul>
+        <li><a href="#hero">Inicio</a></li>
+        <li><a href="#features">Productos</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Sección Hero -->
+  <section class="hero" id="hero">
+    <h1>El Sabor de la Tradición</h1>
+    <p>Descubre la frescura y calidad de nuestros productos lácteos</p>
+    <a href="#features" class="btn">Ver Productos</a>
+  </section>
+
+  <!-- Sección de Productos Destacados -->
+  <section class="features" id="features">
+    <h2>Nuestros Productos</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="https://source.unsplash.com/300x200/?milk" alt="Leche Fresca">
+        <h3>Leche Fresca</h3>
+        <p>Directamente de nuestras granjas a tu mesa. Sabor natural e inigualable.</p>
+      </div>
+      <div class="card">
+        <img src="https://source.unsplash.com/300x200/?cheese" alt="Quesos Artesanales">
+        <h3>Quesos Artesanales</h3>
+        <p>Elaborados con tradición y pasión, ideales para cualquier ocasión.</p>
+      </div>
+      <div class="card">
+        <img src="https://source.unsplash.com/300x200/?yogurt" alt="Yogur Natural">
+        <h3>Yogur Natural</h3>
+        <p>Refrescante y delicioso, el complemento perfecto para tu día.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer / Contacto -->
+  <footer id="contact">
+    <p>&copy; 2025 Lácteos Casillas. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
