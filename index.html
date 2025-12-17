@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lácteos Casillas | Lujo Artesanal</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBlue: '#3e5373',
+                        cream: '#F9F7F2',
+                        dark: '#1a1a1a',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animaciones suaves personalizadas (Reemplazo de Framer Motion) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Efecto Hover en imágenes */
+        .zoom-img {
+            transition: transform 0.7s ease;
+        }
+        .group:hover .zoom-img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-cream text-dark font-sans selection:bg-brandBlue selection:text-white antialiased">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-8 bg-transparent">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="font-serif text-2xl font-bold tracking-tighter text-black">
+                LÁCTEOS CASILLAS
+            </div>
+            
+            <div class="hidden md:flex space-x-8 text-sm font-medium tracking-wide text-gray-800">
+                <a href="#historia" class="hover:text-brandBlue transition-colors">Nuestra Historia</a>
+                <a href="#filosofia" class="hover:text-brandBlue transition-colors">Filosofía</a>
+                <a href="#coleccion" class="hover:text-brandBlue transition-colors">Colección</a>
+                <a href="#mexico" class="hover:text-brandBlue transition-colors">Nuestro México</a>
+            </div>
+
+            <button class="hidden md:flex items-center space-x-2 text-xs font-bold uppercase tracking-widest border border-gray-300 px-6 py-2 rounded-full hover:bg-black hover:text-white transition-all duration-300">
+                <span>Adquirir</span>
+            </button>
+            
+            <button class="md:hidden text-gray-800">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1634629377406-c8f352353df0?q=80&w=2000&auto=format&fit=crop" 
+                 alt="Paisaje Tepatitlán" 
+                 class="w-full h-full object-cover opacity-90">
+            <div class="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-cream"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20 reveal active">
+            <p class="text-sm md:text-base tracking-[0.3em] uppercase mb-6 font-bold text-white drop-shadow-md">
+                Desde Tepatitlán, Jalisco
+            </p>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 leading-tight drop-shadow-lg">
+                El Arte del <br/><span class="italic">Queso Auténtico</span>
+            </h1>
+            <a href="#coleccion" class="inline-block bg-white text-brandBlue px-10 py-4 rounded-full font-bold text-sm tracking-widest hover:scale-105 transition-transform duration-300 shadow-xl">
+                DESCUBRIR LA COLECCIÓN
+            </a>
+        </div>
+    </section>
+
+    <section id="historia" class="py-24 bg-cream">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=1000&auto=format&fit=crop" 
+                     alt="Vacas felices" 
+                     class="rounded-lg shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 w-full">
+            </div>
+            <div class="reveal">
+                <div class="mb-8">
+                    <span class="text-xs font-bold tracking-[0.2em] uppercase mb-4 block text-brandBlue">Nuestra Esencia</span>
+                    <h2 class="text-4xl md:text-5xl font-serif text-dark">Más que lácteos,<br/> un legado.</h2>
+                </div>
+                <p class="text-lg text-gray-600 mb-6 leading-relaxed font-light">
+                    En los verdes campos de Tepatitlán, entendemos que la excelencia no se apresura. 
+                    Como un buen sastre selecciona su tela, nosotros cuidamos cada detalle: desde la 
+                    salud de nuestras vacas hasta el último paso del proceso artesanal.
+                </p>
+                <div class="grid grid-cols-2 gap-6 mt-8">
+                    <div class="border-l-2 border-brandBlue pl-4">
+                        <h4 class="font-serif text-xl mb-2">100% Natural</h4>
+                        <p class="text-sm text-gray-500">Sin aditivos, pureza de los Altos.</p>
+                    </div>
+                    <div class="border-l-2 border-brandBlue pl-4">
+                        <h4 class="font-serif text-xl mb-2">Bienestar Animal</h4>
+                        <p class="text-sm text-gray-500">Vacas libres producen oro blanco.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="coleccion" class="py-32 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="mb-16 text-center reveal">
+                <span class="text-xs font-bold tracking-[0.2em] uppercase mb-4 block text-brandBlue">Nuestra Colección</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-dark">Obras Maestras <br/> de los Altos de Jalisco</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-x-8 gap-y-16">
+                <div class="group cursor-pointer reveal">
+                    <div class="relative overflow-hidden rounded-md mb-6 aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover" alt="Mozzarella">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-black px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase translate-y-4 group-hover:translate-y-0 transition-transform">Ver Detalle</span>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-serif text-dark mb-2">Mozzarella Artesanal</h3>
+                    <p class="text-gray-500 font-light text-sm mb-4">Hilado a mano, textura elástica perfecta.</p>
+                    <span class="text-brandBlue text-sm font-bold uppercase tracking-wider flex items-center gap-2">Añadir <i data-lucide="chevron-right" class="w-4"></i></span>
+                </div>
+
+                <div class="group cursor-pointer reveal">
+                    <div class="relative overflow-hidden rounded-md mb-6 aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1624806992066-5d5462433aa6?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover" alt="Chihuahua">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-black px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase translate-y-4 group-hover:translate-y-0 transition-transform">Ver Detalle</span>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-serif text-dark mb-2">Chihuahua Supremo</h3>
+                    <p class="text-gray-500 font-light text-sm mb-4">El rey del fundido. Sabor mantequilloso profundo.</p>
+                    <span class="text-brandBlue text-sm font-bold uppercase tracking-wider flex items-center gap-2">Añadir <i data-lucide="chevron-right" class="w-4"></i></span>
+                </div>
+
+                <div class="group cursor-pointer reveal">
+                    <div class="relative overflow-hidden rounded-md mb-6 aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover" alt="Adobera">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-black px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase translate-y-4 group-hover:translate-y-0 transition-transform">Ver Detalle</span>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-serif text-dark mb-2">Adobera de Los Altos</h3>
+                    <p class="text-gray-500 font-light text-sm mb-4">La tradición de Jalisco en su máxima expresión.</p>
+                    <span class="text-brandBlue text-sm font-bold uppercase tracking-wider flex items-center gap-2">Añadir <i data-lucide="chevron-right" class="w-4"></i></span>
+                </div>
+                
+                 <div class="group cursor-pointer reveal">
+                    <div class="relative overflow-hidden rounded-md mb-6 aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover" alt="Crema">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-black px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase translate-y-4 group-hover:translate-y-0 transition-transform">Ver Detalle</span>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-serif text-dark mb-2">Crema de Rancho</h3>
+                    <p class="text-gray-500 font-light text-sm mb-4">Espesura natural, sin estabilizantes.</p>
+                    <span class="text-brandBlue text-sm font-bold uppercase tracking-wider flex items-center gap-2">Añadir <i data-lucide="chevron-right" class="w-4"></i></span>
+                </div>
+
+                 <div class="group cursor-pointer reveal">
+                    <div class="relative overflow-hidden rounded-md mb-6 aspect-[4/5]">
+                        <img src="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?q=80&w=800&auto=format&fit=crop" class="zoom-img w-full h-full object-cover" alt="Mantequilla">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="bg-white text-black px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase translate-y-4 group-hover:translate-y-0 transition-transform">Ver Detalle</span>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-serif text-dark mb-2">Mantequilla Pura</h3>
+                    <p class="text-gray-500 font-light text-sm mb-4">Batida lentamente. Color oro natural.</p>
+                    <span class="text-brandBlue text-sm font-bold uppercase tracking-wider flex items-center gap-2">Añadir <i data-lucide="chevron-right" class="w-4"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mexico" class="py-24 bg-brandBlue text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2 reveal">
+                <span class="text-blue-200 text-xs font-bold tracking-[0.2em] uppercase mb-4 block">Origen y Orgullo</span>
+                <h2 class="text-4xl md:text-6xl font-serif mb-8">El Corazón de Tepatitlán</h2>
+                <p class="text-blue-100 text-lg leading-relaxed mb-8 font-light">
+                    Nuestra identidad está forjada en la tierra roja de Jalisco. No solo hacemos queso; 
+                    embotellamos la cultura de los charros, la elegancia de las haciendas y el trabajo 
+                    duro de nuestra gente. Lácteos Casillas es un tributo a México.
+                </p>
+                <button class="bg-white text-brandBlue px-8 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors">
+                    CONOCE NUESTRO RANCHO
+                </button>
+            </div>
+            <div class="md:w-1/2 grid grid-cols-2 gap-4 reveal">
+                <img src="https://images.unsplash.com/photo-1588668214407-6ea9e6d8c278?q=80&w=600&auto=format&fit=crop" class="rounded-lg translate-y-8 shadow-lg" alt="Agave">
+                <img src="https://images.unsplash.com/photo-1549247656-74591b6e4e5b?q=80&w=600&auto=format&fit=crop" class="rounded-lg shadow-lg" alt="Arquitectura">
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-16 border-t border-gray-800">
+        <div class="container mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+                <h2 class="font-serif text-2xl mb-6">LÁCTEOS CASILLAS</h2>
+                <p class="text-gray-400 max-w-sm font-light">
+                    Redefiniendo el estándar del queso mexicano. Calidad, tradición y elegancia en cada bocado.
+                </p>
+            </div>
+            
+            <div>
+                <h4 class="text-sm font-bold uppercase tracking-widest mb-6 text-gray-500">Menú</h4>
+                <ul class="space-y-4 text-gray-300 font-light">
+                    <li><a href="#" class="hover:text-white transition-colors">Inicio</a></li>
+                    <li><a href="#coleccion" class="hover:text-white transition-colors">Productos</a></li>
+                    <li><a href="#historia" class="hover:text-white transition-colors">Historia</a></li>
+                </ul>
+            </div>
+    
+            <div>
+                <h4 class="text-sm font-bold uppercase tracking-widest mb-6 text-gray-500">Contacto</h4>
+                <ul class="space-y-4 text-gray-300 font-light">
+                    <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4"></i> Tepatitlán de Morelos, Jal.</li>
+                    <li class="flex items-center gap-2"><i data-lucide="award" class="w-4"></i> Calidad Premium</li>
+                    <li class="flex items-center gap-2"><i data-lucide="heart" class="w-4"></i> Hecho en México</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 mt-16 pt-8 border-t border-gray-800 text-center text-xs text-gray-600 uppercase tracking-widest">
+            &copy; 2025 Lácteos Casillas. Lujo Artesanal.
+        </div>
+    </footer>
+
+    <script>
+        // 1. Iniciar Iconos
+        lucide.createIcons();
+
+        // 2. Efecto Navbar Glass al hacer scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                navbar.classList.remove('bg-transparent', 'py-8');
+            } else {
+                navbar.classList.add('bg-transparent', 'py-8');
+                navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+            }
+        });
+
+        // 3. Animaciones al hacer Scroll (Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Disparar una vez al inicio
+        reveal();
+    </script>
+</body>
+</html>
