@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Ruta Casillas — Colima · Manzanillo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <style>
+    :root {
+      --bg:#F5F3EE;--ink:#111010;--mid:#555048;--soft:#999188;--rule:#D8D4CC;
+      --gold:#8A6A1A;--green:#2D6A4F;--green-light:#D8F3DC;
+      --red:#9B2226;--red-light:#FFE8E8;--white:#FDFCF9;--skip:#BDB8B0;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+ 
+    /* ── LOGIN ── */
+    #login-screen {
+      position:fixed;inset:0;z-index:9999;
+      background:var(--ink);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:0;
+    }
+    .login-box {
+      width:100%;max-width:340px;padding:0 32px;
+    }
+    .login-logo {
+      margin-bottom:40px;
+      opacity:.7;
+    }
+    .login-logo svg { display:block; }
+    .login-title {
+      font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
+      color:rgba(255,255,255,.3);margin-bottom:28px;
+    }
+    .login-field {
+      margin-bottom:14px;
+    }
+    .login-field label {
+      display:block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+      color:rgba(255,255,255,.25);margin-bottom:7px;
+    }
+    .login-field input {
+      width:100%;padding:13px 14px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:white;font-size:.9rem;font-family:inherit;
+      outline:none;transition:border-color .2s;
+      -webkit-appearance:none;border-radius:0;
+    }
+    .login-field input:focus { border-color:rgba(255,255,255,.35); }
+    .login-field input::placeholder { color:rgba(255,255,255,.2); }
+    .login-btn {
+      width:100%;padding:14px;margin-top:8px;
+      background:var(--white);color:var(--ink);
+      border:none;cursor:pointer;
+      font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+      font-family:inherit;transition:background .2s;
+    }
+    .login-btn:hover { background:#e8e5de; }
+    .login-error {
+      margin-top:14px;font-size:.72rem;
+      color:#FF6B6B;text-align:center;
+      opacity:0;transition:opacity .3s;
+    }
+    .login-error.show { opacity:1; }
+    .login-footer {
+      margin-top:48px;font-size:.58rem;letter-spacing:.12em;
+      color:rgba(255,255,255,.12);text-align:center;
+    }
+ 
+    /* ── APP ── */
+    #app {
+      display:none;
+      grid-template-columns:360px 1fr;
+      height:100vh;
+    }
+    #app.visible { display:grid; }
+    @media(max-width:768px){
+      #app.visible{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:hidden}
+    }
+ 
+    #sidebar{background:var(--white);border-right:1px solid var(--rule);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+    @media(max-width:768px){#sidebar{height:auto;max-height:46vh}}
+ 
+    .sidebar-header{padding:16px 18px 12px;border-bottom:1px solid var(--rule);flex-shrink:0}
+    .sidebar-header h1{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+    .sidebar-header p{font-size:.68rem;color:var(--soft);margin-top:2px}
+    .week-badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:var(--bg);border:1px solid var(--rule);padding:3px 10px;border-radius:20px;font-size:.62rem;color:var(--mid)}
+    .week-badge b{color:var(--ink)}
+ 
+    .progress-wrap{padding:10px 18px;border-bottom:1px solid var(--rule);flex-shrink:0}
+    .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .progress-label{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+    .progress-count{font-size:.72rem;font-weight:700;color:var(--ink)}
+    .progress-track{height:4px;background:var(--rule);border-radius:2px;overflow:hidden}
+    .progress-fill{height:100%;background:var(--green);border-radius:2px;transition:width .5s ease}
+ 
+    .tabs{display:flex;border-bottom:1px solid var(--rule);flex-shrink:0}
+    .tab{flex:1;padding:9px 0;text-align:center;font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;transition:all .2s}
+    .tab.active{color:var(--ink);border-bottom-color:var(--ink)}
+    .tab-count{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;font-size:.58rem;margin-left:4px}
+    #tab-pending .tab-count{background:var(--red-light);color:var(--red)}
+    #tab-done .tab-count{background:var(--green-light);color:var(--green)}
+    #tab-skip .tab-count{background:#EEEAE3;color:var(--skip)}
+ 
+    #client-list{flex:1;overflow-y:auto;padding:4px 0}
+ 
+    .client-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--rule);transition:background .15s}
+    .client-item:hover{background:var(--bg)}
+    .client-item.active{background:#F0EDE6}
+    .client-num{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;flex-shrink:0}
+    .client-item.done .client-num{background:var(--green)}
+    .client-item.skip .client-num{background:var(--skip)}
+    .client-info{flex:1;min-width:0}
+    .client-name{font-size:.78rem;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .client-item.skip .client-name{color:var(--soft);text-decoration:line-through}
+    .client-sub{font-size:.65rem;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+    .client-order-prev{font-size:.62rem;color:var(--gold);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .check-btn{width:26px;height:26px;border-radius:50%;border:2px solid var(--rule);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:transparent;transition:all .2s;flex-shrink:0}
+    .check-btn:hover{border-color:var(--green);color:var(--green)}
+    .client-item.done .check-btn{background:var(--green);border-color:var(--green);color:white}
+    .client-item.skip .check-btn{display:none}
+ 
+    .logout-btn{margin:8px 14px 4px;padding:7px 0;background:none;border:1px solid var(--rule);color:var(--soft);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:calc(100% - 28px);transition:all .2s}
+    .logout-btn:hover{border-color:var(--ink);color:var(--ink)}
+    .reset-btn{margin:0 14px 8px;padding:7px 0;background:none;border:1px solid var(--rule);color:var(--soft);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:calc(100% - 28px);transition:all .2s}
+    .reset-btn:hover{border-color:var(--red);color:var(--red)}
+ 
+    #map{width:100%;height:100vh;z-index:1}
+    @media(max-width:768px){#map{height:54vh}}
+ 
+    #detail-card{position:fixed;bottom:0;left:360px;right:0;background:var(--white);border-top:1px solid var(--rule);transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);z-index:500;max-height:58vh;overflow-y:auto}
+    #detail-card.open{transform:translateY(0)}
+    @media(max-width:768px){#detail-card{left:0;bottom:54vh;max-height:46vh}}
+ 
+    .detail-top{position:sticky;top:0;background:var(--white);border-bottom:1px solid var(--rule);padding:9px 14px;display:flex;justify-content:space-between;align-items:center}
+    .detail-top span{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+    .detail-top button{background:none;border:none;cursor:pointer;font-size:.6rem;color:var(--soft);padding:3px 6px;letter-spacing:.08em;text-transform:uppercase}
+    .detail-body{padding:16px 18px 22px}
+    .detail-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+    .detail-num{width:38px;height:38px;border-radius:50%;background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;flex-shrink:0}
+    .detail-num.done{background:var(--green)}
+    .detail-num.skip{background:var(--skip)}
+    .detail-title h2{font-size:.95rem;font-weight:700;color:var(--ink)}
+    .detail-title p{font-size:.68rem;color:var(--soft);margin-top:2px}
+    .skip-notice{background:#F5F0E8;border:1px solid #E0D8C8;padding:10px 12px;margin-bottom:14px;font-size:.75rem;color:var(--mid)}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+    .dfield{padding:9px 11px;background:var(--bg);border:1px solid var(--rule)}
+    .dfield-lbl{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:2px}
+    .dfield-val{font-size:.78rem;color:var(--ink);font-weight:500}
+    .order-box{background:#FFF8EC;border:1px solid #E8D5A0;padding:11px 13px;margin-bottom:14px}
+    .order-lbl{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+    .order-items{font-size:.8rem;color:var(--ink);line-height:1.85}
+    .order-empty{font-size:.78rem;color:var(--soft);font-style:italic}
+    .detail-actions{display:flex;gap:8px}
+    .btn-deliver{flex:1;padding:12px;border:none;cursor:pointer;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--green);color:white;transition:background .2s}
+    .btn-deliver:hover{background:#1B4332}
+    .btn-deliver.delivered{background:var(--rule);color:var(--soft)}
+    .btn-wa{padding:12px 14px;border:1px solid var(--rule);background:none;color:var(--ink);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .2s}
+    .btn-wa:hover{border-color:#25D366;color:#25D366}
+ 
+    .mk{width:34px;height:34px;border-radius:50%;border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;color:white;font-size:.62rem;font-weight:700;cursor:pointer}
+    .mk-active{width:42px;height:42px;font-size:.72rem;box-shadow:0 0 0 4px rgba(17,16,16,.15),0 4px 12px rgba(0,0,0,.28)}
+    .mk-pending{background:var(--ink)}
+    .mk-done{background:var(--green)}
+    .mk-skip{background:var(--skip)}
+ 
+    #toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--ink);color:white;padding:9px 18px;font-size:.7rem;letter-spacing:.06em;transition:transform .4s cubic-bezier(.22,1,.36,1);z-index:9999;white-space:nowrap}
+    #toast.show{transform:translateX(-50%) translateY(0)}
+    .leaflet-container{font-family:inherit}
+  </style>
+</head>
+<body>
+ 
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg width="36" height="48" viewBox="0 0 268 357" fill="rgba(255,255,255,0.6)" xmlns="http://www.w3.org/2000/svg">
+        <path d="M70.3928 14.2443C69.6046 14.6013 68.5422 15.5295 67.9938 16.2792C67.1371 17.4216 67 17.9214 67 19.9563C67 22.3125 67 22.3482 71.5923 31.059C74.1284 35.8785 76.4245 40.1625 76.6987 40.5909C77.1442 41.3406 77.11 41.4477 75.8419 42.1974C56.8557 53.8356 41.5366 72.3996 33.757 93.2127L32.489 96.6399L22.8245 93.2841C17.5468 91.4634 12.646 89.8569 11.9606 89.7498C6.20304 88.7502 2.70739 97.2111 7.23118 101.174C8.63629 102.388 33.8256 111.134 35.8475 111.098C39.0005 111.027 40.577 109.278 41.9821 104.244C49.4532 77.6118 69.6389 55.6563 96.5417 44.8035C108.605 39.9126 120.292 37.6992 134 37.6992C161.314 37.6992 186.092 48.0522 204.256 67.0803C206.826 69.7578 209.91 73.2921 211.144 74.97C217.347 83.2881 222.008 92.3202 224.99 101.852C227.115 108.635 227.423 109.313 229.034 110.313C231.261 111.741 232.769 111.42 246.855 106.529C260.46 101.816 261.454 101.317 262.38 98.9961C263.51 96.2472 262.448 92.3559 260.186 90.7851C257.753 89.1072 257.033 89.2143 246.032 92.9985C240.48 94.9263 235.785 96.5685 235.614 96.6399C235.408 96.7113 234.586 94.962 233.763 92.7843C232.015 88.0719 228.828 81.4674 226.018 76.755C218.341 63.8673 205.558 50.7654 193.186 43.0899C191.884 42.3045 190.753 41.4834 190.684 41.2335C190.582 41.0193 192.398 37.3422 194.66 33.0582C200.452 22.134 200.486 22.0983 200.486 19.992C200.486 17.9928 199.972 16.6719 198.704 15.4581C197.641 14.4228 195.619 13.566 194.249 13.566C192.706 13.6017 190.479 14.7084 189.553 15.9222C189.108 16.4934 186.606 21.063 183.967 26.061C181.328 31.059 179.135 35.2002 179.101 35.2716C179.032 35.3073 177.25 34.6647 175.091 33.8079C166.523 30.3807 157.99 28.1316 148.051 26.7036C143.596 26.061 123.959 26.061 119.777 26.7036C108.845 28.3815 97.3984 31.4874 90.6813 34.5933C89.756 34.986 88.8307 35.343 88.625 35.343C88.4194 35.343 87.8711 34.5576 87.3913 33.6294C83.313 25.7397 78.2752 16.4577 77.6583 15.7437C76.6987 14.6013 74.4711 13.566 72.9974 13.566C72.3463 13.566 71.1468 13.8873 70.3928 14.2443Z"/>
+        <path d="M170.739 75.327C168.717 76.6122 168.271 77.8617 168.271 82.1814C168.271 85.0374 168.168 86.037 167.86 86.037C167.62 86.037 165.564 85.6443 163.302 85.1802C155.419 83.538 153.363 83.3595 143.939 83.3595C134.857 83.3952 133.177 83.538 125.946 84.966C111.278 87.8934 97.1242 94.7478 85.5063 104.494C81.1196 108.171 73.8541 115.954 70.7355 120.309C58.5007 137.338 52.8117 157.044 54.1825 177.465C54.868 188.032 57.8495 199.742 61.8935 208.06C62.2362 208.774 62.1334 209.309 61.0025 211.808C53.2915 229.051 51.8864 250.436 57.1984 269.642C66.5201 303.236 95.7877 328.583 131.258 333.795C134.514 334.259 144.418 334.866 145.995 334.688C146.646 334.616 148.976 334.473 151.135 334.331C155.659 334.081 160.697 333.367 164.775 332.367C166.352 331.974 167.791 331.653 167.963 331.653C168.134 331.653 168.271 333.367 168.271 335.509C168.271 340.114 168.751 341.363 171.047 342.649C172.932 343.72 175.022 343.505 176.77 342.149C178.929 340.435 178.929 340.328 178.827 324.513C178.724 310.697 178.689 310.269 178.004 309.269C177.079 307.948 174.885 306.663 173.549 306.663C171.972 306.663 169.642 308.091 168.922 309.519C168.374 310.554 168.271 311.554 168.271 315.231V319.694L167.174 320.336C165.906 321.014 160.012 322.442 155.419 323.121C150.793 323.835 136.879 323.763 132.115 322.978C125.501 321.871 117.139 319.515 111.895 317.195C96.8158 310.59 83.7242 299.202 75.4649 285.564C70.29 276.996 67.1027 268.393 65.2178 257.754C64.361 252.899 64.361 239.333 65.2178 234.549C65.9375 230.479 67.6168 223.839 68.3708 221.947L68.9191 220.59L69.6731 221.59C70.1186 222.125 71.2153 223.625 72.1406 224.91C74.6767 228.409 81.6337 235.691 85.5063 238.94C96.9529 248.543 110.456 255.148 124.918 258.218C131.807 259.718 135.713 260.075 144.281 260.075C152.849 260.075 156.927 259.682 163.405 258.254C165.564 257.79 167.517 257.397 167.791 257.397C168.168 257.397 168.271 258.147 168.271 261.288C168.271 264.716 168.374 265.287 169.059 266.322C171.218 269.678 175.708 269.821 177.935 266.608L178.724 265.43V250.721C178.724 236.37 178.724 236.013 178.004 235.013C176.188 232.478 173.583 231.764 171.013 233.121C168.751 234.335 168.477 235.12 168.271 240.582L168.1 245.402L167.072 246.009C165.975 246.687 159.498 248.115 154.22 248.865C150.039 249.436 138.524 249.436 134.343 248.865C114.465 246.08 98.3237 237.869 85.1293 223.803C81.4966 219.912 77.9324 215.235 75.2935 210.916L74.0598 208.881L76.4245 205.204C83.9984 193.28 94.5539 183.748 107.44 177.251C120.154 170.824 131.601 168.254 146.063 168.611C153.809 168.79 157.613 169.289 164.159 170.932L168.1 171.931L168.271 176.894C168.442 182.213 168.614 182.855 170.293 184.319C172.521 186.247 176.119 185.676 177.901 183.105L178.724 181.892V167.183C178.724 152.903 178.689 152.475 178.004 151.511C175.605 148.119 171.253 148.012 169.094 151.332C168.34 152.51 168.271 152.939 168.271 156.616C168.271 158.829 168.168 160.65 167.997 160.65C167.86 160.65 167.209 160.507 166.592 160.293C164.878 159.793 158.298 158.615 154.734 158.187C139.038 156.33 122.485 158.758 107.783 165.112C93.2516 171.36 80.2286 181.784 71.0096 194.494C68.7135 197.635 68.7478 197.671 67.2056 192.102C65.4577 185.89 64.738 181.142 64.5324 174.038C64.224 164.434 65.1836 157.687 68.0623 148.548C71.4894 137.623 77.3498 127.842 85.6091 119.131C98.4265 105.601 114.363 97.4967 134 94.5693C135.611 94.3194 140.272 94.1409 144.453 94.1409C152.609 94.1409 157.921 94.7835 164.673 96.5685C166.523 97.0683 168.065 97.461 168.134 97.461C168.202 97.461 168.271 99.6387 168.271 102.28C168.271 107.707 168.511 108.599 170.43 110.099C171.355 110.848 171.972 111.027 173.48 111.027C175.708 111.027 177.284 110.099 178.278 108.171C178.861 106.993 178.895 106.029 178.827 92.5701C178.724 78.6471 178.689 78.2187 178.004 77.2191C176.188 74.6487 173.069 73.8633 170.739 75.327Z"/>
+      </svg>
+    </div>
+    <div class="login-title">Lácteos Casillas · Ruta</div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="pw-input" placeholder="••••••••"
+             onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="login-error">Contraseña incorrecta</div>
+    <div class="login-footer">quesocasillas.com · uso interno</div>
+  </div>
+</div>
+ 
+<!-- ── APP ── -->
+<div id="app">
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <h1>Ruta Casillas</h1>
+      <p>Colima · Villa de Álvarez · Coquimatlán · Manzanillo</p>
+      <div class="week-badge">Semana <b id="week-num">--</b> &nbsp;·&nbsp; <span id="week-type">--</span> &nbsp;·&nbsp; <span id="today-date">--</span></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label">Progreso del día</span>
+        <span class="progress-count" id="progress-text">0 / 0</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="setTab('pending')" id="tab-pending">Pendientes <span class="tab-count" id="cnt-pending">0</span></button>
+      <button class="tab" onclick="setTab('done')" id="tab-done">Entregados <span class="tab-count" id="cnt-done">0</span></button>
+      <button class="tab" onclick="setTab('skip')" id="tab-skip">Quincenal <span class="tab-count" id="cnt-skip">0</span></button>
+    </div>
+    <div id="client-list"></div>
+    <button class="reset-btn" onclick="resetAll()">↺ Reiniciar ruta del día</button>
+    <button class="logout-btn" onclick="doLogout()">← Cerrar sesión</button>
+  </div>
+  <div id="map"></div>
+</div>
+ 
+<div id="detail-card">
+  <div class="detail-top">
+    <span id="detail-label">Cliente</span>
+    <button onclick="closeDetail()">✕ Cerrar</button>
+  </div>
+  <div class="detail-body" id="detail-body"></div>
+</div>
+ 
+<div id="toast"></div>
+ 
+<script>
+// ── CONTRASEÑA ─────────────────────────────────────────────────────────────
+// Cambia "casillas2024" por la contraseña que quieras
+const PASSWORD = "casillas2024";
+const SESSION_KEY = "ruta_auth";
+ 
+function doLogin() {
+  const val = document.getElementById('pw-input').value;
+  const err = document.getElementById('login-error');
+  if (val === PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    initMap();
+  } else {
+    err.classList.add('show');
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+    setTimeout(() => err.classList.remove('show'), 2500);
+  }
+}
+ 
+function doLogout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+ 
+// Auto-login si ya tiene sesión activa (misma pestaña)
+if (sessionStorage.getItem(SESSION_KEY) === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+}
+ 
+// ── SEMANA ────────────────────────────────────────────────────────────────
+function getWeek(d) {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const day = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - day);
+  const y = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  return Math.ceil((((date - y) / 86400000) + 1) / 7);
+}
+const TODAY = new Date();
+const WEEK = getWeek(TODAY);
+const ODD = WEEK % 2 !== 0;
+ 
+// ── CLIENTES ──────────────────────────────────────────────────────────────
+const CLIENTS = [
+  {id:1,cid:"CLI-021",name:"Luis Arturo Castro",address:"Priv. Sta. Gertrudis 18, Col. Santa Gertrudis, Colima",phone:"3121115563",municipio:"Colima",lat:19.26483015,lng:-103.7116952,freq:"Semanal",order:{CHI8:0,MOZ24:3,MOZ1:0,MOZ500:0},done:false},
+  {id:2,cid:"CLI-013",name:"Carnes Becerra",address:"Balvino Dávalos 140, Centro, Colima",phone:"3123130448",municipio:"Colima",lat:19.24833335,lng:-103.7271578,freq:"Semanal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:3,cid:"CLI-036",name:"Carnicería Gaitan",address:"Fátima, 28050 Colima",phone:"3121946434",municipio:"Colima",lat:19.24981085,lng:-103.737778,freq:"Semanal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:4,cid:"CLI-023",name:"La Tomatina Rafael de la Torre",address:"C. Antonio Caso 51, Lomas Vista Hermosa, Colima",phone:"3121254740",municipio:"Colima",lat:19.25346245,lng:-103.7180262,freq:"Semanal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:5,cid:"CLI-022",name:"Naranjos Mónica Barajas",address:"C. Gabino Barreda 660-720, Lomas Vista Hermosa, Colima",phone:"3123128390",municipio:"Colima",lat:19.25396363,lng:-103.7400913,freq:"Semanal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:6,cid:"CLI-019",name:"Carlos Alfonso González",address:"C. Luis Gaytán Cabrera 140, Primaveras, Villa de Álvarez",phone:"3123110862",municipio:"Villa de Álvarez",lat:19.27378238,lng:-103.7350299,freq:"Semanal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:7,cid:"CLI-038",name:"Cristy El Tejabán",address:"Colima, Colima",phone:"3121126998",municipio:"Colima",lat:19.2450,lng:-103.7230,freq:"Semanal",order:{CHI8:1,MOZ24:5,MOZ1:0,MOZ500:0},done:false},
+  {id:8,cid:"CLI-020",name:"Carnes Asadas Gaitan",address:"Av. Tecnológico, Morelos 160, Villa de Álvarez",phone:"3123132420",municipio:"Villa de Álvarez",lat:19.26847029,lng:-103.7297075,freq:"Semanal",order:{CHI8:0,MOZ24:9,MOZ1:0,MOZ500:0},done:false},
+  {id:9,cid:"CLI-047",name:"Pizzería Napoli Colima",address:"Blvrd Camino Real 820, El Porvenir II, Colima",phone:"3121110848",municipio:"Colima",lat:19.25477779,lng:-103.6947121,freq:"Semanal",order:{CHI8:0,MOZ24:2,MOZ1:0,MOZ500:0},done:false},
+  {id:10,cid:"CLI-044",name:"Jaime Cantero",address:"C. Ignacio Zaragoza 61, Centro, Colima",phone:"",municipio:"Colima",lat:19.24034948,lng:-103.7222027,freq:"Quincenal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:11,cid:"CLI-039",name:"CasAn Embutidos y Lácteos",address:"Vicente Guerrero 785, Col del Carmen, Colima",phone:"3123133888",municipio:"Colima",lat:19.23600615,lng:-103.7141707,freq:"Semanal",order:{CHI8:10,MOZ24:10,MOZ1:0,MOZ500:0},done:false},
+  {id:12,cid:"CLI-016",name:'Mini Súper "El Golfito"',address:"Av. 20 de Noviembre 350, Col del Periodista, Colima",phone:"3123126734",municipio:"Colima",lat:19.23266256,lng:-103.7263822,freq:"Quincenal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:13,cid:"CLI-037",name:"Carnes Asadas Muñoz",address:"Av. Constitución 761, Lomas Vista Hermosa, Colima",phone:"3123134044",municipio:"Colima",lat:19.2548712,lng:-103.7177196,freq:"Semanal",order:{CHI8:0,MOZ24:0,MOZ1:5,MOZ500:10},done:false},
+  {id:14,cid:"CLI-045",name:"Hamburguesas Letti's",address:"Constitución 362, Centro, Coquimatlán",phone:"3122245354",municipio:"Coquimatlán",lat:19.2103439,lng:-103.8090138,freq:"Quincenal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:15,cid:"CLI-017",name:"Cremería Holandesa",address:"Los Constituyentes 26, Centro, Coquimatlán",phone:"3123230298",municipio:"Coquimatlán",lat:19.20119611,lng:-103.811382,freq:"Quincenal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:16,cid:"CLI-040",name:"Hamburguesas y Pizzas Dante",address:"C. 1ro. de Mayo 32, Centro, Cofradía de Juárez",phone:"3133220777",municipio:"Cofradía de Juárez",lat:18.9830802,lng:-103.9216514,freq:"Semanal",order:{CHI8:5,MOZ24:10,MOZ1:0,MOZ500:0},done:false},
+  {id:17,cid:"CLI-025",name:"Napoli Gonzalo Virgen",address:"Av. Fiestas de Mayo SN, Manzanillo",phone:"3141102021",municipio:"Manzanillo",lat:19.11359265,lng:-104.3193651,freq:"Semanal",order:{CHI8:0,MOZ24:0,MOZ1:0,MOZ500:0},done:false},
+  {id:18,cid:"CLI-046",name:"Carnicería Villegas",address:"Revolución, Santiago Centro, Manzanillo",phone:"3141090330",municipio:"Manzanillo",lat:19.11849015,lng:-104.3518688,freq:"Semanal",order:{CHI8:0,MOZ24:4,MOZ1:0,MOZ500:0},done:false}
+];
+ 
+function fmtOrder(o) {
+  const L = {CHI8:'Chihuahua 8kg',MOZ24:'Mozzarella 2.4kg',MOZ1:'Mozzarella 1kg',MOZ500:'Mozzarella 500g'};
+  const r = Object.entries(o).filter(([k,v])=>v>0).map(([k,v])=>`${v} × ${L[k]}`);
+  return r.length ? r : null;
+}
+function isSkip(c){ return c.freq==='Quincenal' && !ODD; }
+ 
+let activeId=null, curTab='pending', map, markers={};
+ 
+function initMap() {
+  document.getElementById('week-num').textContent = WEEK;
+  document.getElementById('week-type').textContent = ODD ? 'Semana non ✓' : 'Semana par';
+  document.getElementById('today-date').textContent = TODAY.toLocaleDateString('es-MX',{weekday:'short',day:'numeric',month:'short'});
+ 
+  const saved = localStorage.getItem('ruta_casillas_v2');
+  if (saved) JSON.parse(saved).forEach(s=>{ const c=CLIENTS.find(c=>c.id===s.id); if(c) c.done=s.done; });
+ 
+  map = L.map('map',{zoomControl:false}).setView([19.15,-103.95],9);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'©OpenStreetMap ©CARTO',subdomains:'abcd',maxZoom:19}).addTo(map);
+ 
+  const rc = CLIENTS.filter(c=>!isSkip(c)).map(c=>[c.lat,c.lng]);
+  L.polyline(rc,{color:'#111010',weight:2,opacity:.18,dashArray:'5 8'}).addTo(map);
+ 
+  CLIENTS.forEach(c=>addMarker(c));
+  map.fitBounds(L.featureGroup(Object.values(markers)).getBounds().pad(.12));
+  renderList(); updateProgress();
+}
+ 
+function mkClass(c){ if(isSkip(c)) return 'mk mk-skip'; if(c.done) return 'mk mk-done'; return 'mk mk-pending'; }
+ 
+function addMarker(c) {
+  const icon = L.divIcon({className:'',html:`<div class="${mkClass(c)}" id="mk-${c.id}">${c.done?'✓':c.id}</div>`,iconSize:[34,34],iconAnchor:[17,17]});
+  markers[c.id] = L.marker([c.lat,c.lng],{icon,zIndexOffset:c.id*10}).addTo(map).on('click',()=>openDetail(c.id));
+}
+function refreshMarker(c){ map.removeLayer(markers[c.id]); delete markers[c.id]; addMarker(c); }
+ 
+function renderList() {
+  let list;
+  if(curTab==='pending') list=CLIENTS.filter(c=>!c.done&&!isSkip(c));
+  else if(curTab==='done') list=CLIENTS.filter(c=>c.done);
+  else list=CLIENTS.filter(c=>isSkip(c));
+  const el=document.getElementById('client-list');
+  if(!list.length){
+    el.innerHTML=`<div style="padding:28px 18px;text-align:center;color:var(--soft);font-size:.78rem;">${curTab==='pending'?'¡Ruta completada! 🎉':curTab==='done'?'Sin entregas aún':'Sin quincenales activos'}</div>`;
+    return;
+  }
+  el.innerHTML=list.map(c=>{
+    const skip=isSkip(c);
+    const oi=fmtOrder(c.order);
+    const prev=oi?oi[0]+(oi.length>1?` +${oi.length-1}`:''):'Pedido pendiente';
+    return `<div class="client-item ${c.done?'done':''} ${skip?'skip':''} ${activeId===c.id?'active':''}" onclick="openDetail(${c.id})" id="li-${c.id}">
+      <div class="client-num">${c.done?'✓':c.id}</div>
+      <div class="client-info">
+        <div class="client-name">${c.name}</div>
+        <div class="client-sub">${c.municipio}</div>
+        <div class="client-order-prev">${skip?'No se surte esta semana':prev}</div>
+      </div>
+      ${!skip?`<button class="check-btn" onclick="toggleDone(event,${c.id})"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></button>`:''}
+    </div>`;
+  }).join('');
+}
+ 
+function updateProgress() {
+  const active=CLIENTS.filter(c=>!isSkip(c));
+  const done=active.filter(c=>c.done).length;
+  const total=active.length;
+  document.getElementById('progress-text').textContent=`${done} / ${total}`;
+  document.getElementById('progress-fill').style.width=(total>0?Math.round(done/total*100):0)+'%';
+  document.getElementById('cnt-pending').textContent=active.filter(c=>!c.done).length;
+  document.getElementById('cnt-done').textContent=done;
+  document.getElementById('cnt-skip').textContent=CLIENTS.filter(c=>isSkip(c)).length;
+}
+ 
+function openDetail(id) {
+  const c=CLIENTS.find(c=>c.id===id); if(!c) return;
+  activeId=id;
+  map.flyTo([c.lat,c.lng],15,{duration:1});
+  document.querySelectorAll('.mk').forEach(m=>m.classList.remove('mk-active'));
+  const mk=document.getElementById(`mk-${id}`); if(mk) mk.classList.add('mk-active');
+  document.querySelectorAll('.client-item').forEach(el=>el.classList.remove('active'));
+  const li=document.getElementById(`li-${id}`); if(li){li.classList.add('active');li.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  const skip=isSkip(c); const oi=fmtOrder(c.order);
+  const nc=c.done?'done':skip?'skip':'';
+  const waMsg=encodeURIComponent('Hola, soy de Lácteos Casillas. Le confirmo su pedido del día.');
+  const waHref=c.phone?`https://wa.me/52${c.phone.replace(/\D/g,'')}?text=${waMsg}`:'#';
+  document.getElementById('detail-label').textContent=`${c.cid} — Parada #${c.id} · ${c.municipio}`;
+  document.getElementById('detail-body').innerHTML=`
+    <div class="detail-header">
+      <div class="detail-num ${nc}">${c.done?'✓':c.id}</div>
+      <div class="detail-title"><h2>${c.name}</h2><p>${c.freq} · ${c.municipio}</p></div>
+    </div>
+    ${skip?`<div class="skip-notice">⏭ Semana par (#${WEEK}) — cliente quincenal, no se surte hoy.</div>`:''}
+    <div class="detail-grid">
+      <div class="dfield" style="grid-column:span 2"><div class="dfield-lbl">Dirección</div><div class="dfield-val">${c.address}</div></div>
+      <div class="dfield"><div class="dfield-lbl">Teléfono</div><div class="dfield-val">${c.phone||'—'}</div></div>
+      <div class="dfield"><div class="dfield-lbl">ID</div><div class="dfield-val">${c.cid}</div></div>
+    </div>
+    <div class="order-box">
+      <div class="order-lbl">Pedido del día</div>
+      ${oi?`<div class="order-items">${oi.map(i=>`• ${i}`).join('<br>')}</div>`:`<div class="order-empty">Sin pedido capturado aún</div>`}
+    </div>
+    ${!skip?`<div class="detail-actions">
+      <button class="btn-deliver ${c.done?'delivered':''}" onclick="toggleDone(event,${c.id})">${c.done?'✓ Entregado — desmarcar':'✓ Marcar como entregado'}</button>
+      ${c.phone?`<a class="btn-wa" href="${waHref}" target="_blank"><svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WA</a>`:''}
+    </div>`:''}`;
+  document.getElementById('detail-card').classList.add('open');
+}
+ 
+function closeDetail(){ document.getElementById('detail-card').classList.remove('open'); document.querySelectorAll('.mk').forEach(m=>m.classList.remove('mk-active')); activeId=null; }
+function toggleDone(e,id){ e.stopPropagation(); const c=CLIENTS.find(c=>c.id===id); if(!c||isSkip(c)) return; c.done=!c.done; save(); refreshMarker(c); renderList(); updateProgress(); if(activeId===id) openDetail(id); showToast(c.done?`✓ ${c.name} — entregado`:`↩ ${c.name} — pendiente`); }
+function setTab(t){ curTab=t; document.querySelectorAll('.tab').forEach(el=>el.classList.remove('active')); document.getElementById(`tab-${t}`).classList.add('active'); renderList(); }
+function resetAll(){ if(!confirm('¿Reiniciar todas las entregas del día?')) return; CLIENTS.forEach(c=>c.done=false); localStorage.removeItem('ruta_casillas_v2'); CLIENTS.forEach(c=>refreshMarker(c)); renderList(); updateProgress(); closeDetail(); showToast('Ruta reiniciada'); }
+function save(){ localStorage.setItem('ruta_casillas_v2',JSON.stringify(CLIENTS.map(c=>({id:c.id,done:c.done})))); }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+ 
+// Init mapa si ya hay sesión
+if(sessionStorage.getItem(SESSION_KEY)==='1') initMap();
+</script>
+</body>
+</html>
+ 
