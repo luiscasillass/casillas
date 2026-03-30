@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lácteos Casillas — Queso Artesanal de Los Altos de Jalisco</title>
+  <title>Queso Casillas</title>
   <meta name="description" content="Quesos artesanales de Tepatitlán de Morelos, Jalisco. Mozzarella, Chihuahua, Adobera y Crema 100% naturales. Los Altos de Jalisco.">
   <meta property="og:title" content="Lácteos Casillas — Queso Artesanal de Los Altos de Jalisco">
   <meta property="og:description" content="Quesos artesanales elaborados en Tepatitlán, Jalisco.">
@@ -86,8 +86,9 @@
     .nav-cta:hover { background:var(--gold); }
     .nav-ham { display:none; background:none; border:none; cursor:pointer; padding:4px; }
     @media(max-width:768px){
-      nav { padding:18px 24px; }
+      nav { padding:18px 24px; display:flex; align-items:center; justify-content:flex-end; }
       nav.solid { padding:13px 24px; }
+      .nav-center { position:absolute; left:50%; transform:translateX(-50%); }
       .nav-left, .nav-cta { display:none; }
       .nav-ham { display:block; }
     }
@@ -418,6 +419,19 @@
       border:1px solid rgba(37,211,102,.25); animation:wapulse 2.5s ease infinite;
     }
     @keyframes wapulse { 0%{transform:scale(1);opacity:.6} 100%{transform:scale(1.55);opacity:0} }
+
+    /* ── LOCATION ── */
+    .location-grid { display:grid; grid-template-columns:1fr 1fr; }
+    .location-map { position:relative; min-height:480px; overflow:hidden; }
+    .location-info {
+      background:var(--ink); padding:64px 56px;
+      display:flex; flex-direction:column; justify-content:center;
+    }
+    @media(max-width:768px){
+      .location-grid { grid-template-columns:1fr; }
+      .location-map { min-height:260px; }
+      .location-info { padding:40px 24px; }
+    }
   </style>
 </head>
 <body>
@@ -498,19 +512,23 @@
   <div class="mq-track">
     <div class="mq-item"><strong>Queso Artesanal</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Los Altos de Jalisco<div class="mq-dot"></div></div>
-    <div class="mq-item"><strong>100% Natural</strong><div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Conservadores</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Tepatitlán de Morelos<div class="mq-dot"></div></div>
-    <div class="mq-item"><strong>Sin Aditivos</strong><div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Leche Fresca del Día</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Hecho en México<div class="mq-dot"></div></div>
-    <div class="mq-item"><strong>Familia Casillas</strong><div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Elaboración Diaria</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Familia Casillas<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Aditivos</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Jalisco, México<div class="mq-dot"></div></div>
     <div class="mq-item"><strong>Queso Artesanal</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Los Altos de Jalisco<div class="mq-dot"></div></div>
-    <div class="mq-item"><strong>100% Natural</strong><div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Conservadores</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Tepatitlán de Morelos<div class="mq-dot"></div></div>
-    <div class="mq-item"><strong>Sin Aditivos</strong><div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Leche Fresca del Día</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Hecho en México<div class="mq-dot"></div></div>
-    <div class="mq-item"><strong>Familia Casillas</strong><div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Elaboración Diaria</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Familia Casillas<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Aditivos</strong><div class="mq-dot"></div></div>
     <div class="mq-item">Jalisco, México<div class="mq-dot"></div></div>
   </div>
 </div>
@@ -533,8 +551,8 @@
           </h2>
         </div>
         <div class="fu d1">
-          <p class="body-p">La historia de Lácteos Casillas no empieza en una fábrica — empieza en el carácter de dos familias que creyeron en la tierra, en el trabajo honesto y en el queso como forma de vida.</p>
-          <p class="body-p">Desde California hasta Los Pinos, desde los campos de Jalisco hasta las mesas de México: cada pieza que elaboramos lleva el peso de esa historia.</p>
+          <p class="body-p">Antes de que existiera Lácteos Casillas, existían dos familias. Una que pasó décadas trabajando con ganado en Los Altos y en California. Otra que fue a Los Pinos a pelear por los lecheros de la región y luego fundó lo que hoy es esta empresa.</p>
+          <p class="body-p">Somos la tercera generación. El queso que hacemos carga esa historia.</p>
         </div>
       </div>
     </div>
@@ -600,8 +618,8 @@
 
 <!-- UBICACIÓN -->
 <section style="background:var(--ivory); padding:0;">
-  <div style="display:grid; grid-template-columns:1fr 1fr;">
-    <div style="position:relative; min-height:480px; overflow:hidden;">
+  <div class="location-grid">
+    <div class="location-map">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6611.0!2d-102.7939765!3d20.8368993!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842927186f45559f%3A0xd3304e1a341ffa7f!2sL%C3%A1cteos%20Casillas!5e0!3m2!1ses!2smx!4v1"
         width="100%" height="100%"
@@ -609,7 +627,7 @@
         allowfullscreen="" loading="lazy">
       </iframe>
     </div>
-    <div style="background:var(--ink); padding:64px 56px; display:flex; flex-direction:column; justify-content:center;">
+    <div class="location-info">
       <span class="eyebrow" style="color:rgba(168,130,30,.7);">Encuéntranos</span>
       <h2 class="h-display" style="font-size:clamp(1.8rem,3vw,2.6rem); color:var(--white); margin-bottom:28px; margin-top:6px;">
         Visítanos en<br/><em>Tepatitlán.</em>
@@ -637,44 +655,46 @@
     <div class="historia-timeline">
       <div class="timeline-header fu">
         <span class="eyebrow">Las dos raíces</span>
-        <h2 class="h-display" style="font-size:clamp(2rem,3.5vw,3rem);">Dos abuelos.<br/><em>Una misma pasión.</em></h2>
+        <h2 class="h-display" style="font-size:clamp(2rem,3.5vw,3rem);">Dos familias.<br/><em>Un mismo oficio.</em></h2>
       </div>
 
       <div class="timeline-grid">
 
-        <!-- Celda 1: Juan Ignacio — foto -->
+        <!-- Celda 1: Abuelo materno — San Fernando, CA -->
         <div class="timeline-cell fu d1">
-          <img src="JLC_PinosSpeech.jpeg" alt="San Fernando, California, 1960">
+          <img src="JICDLT_san_fernando_CA.jpeg" alt="San Fernando, California">
           <div class="timeline-caption">
-            <div class="timeline-year">1960</div>
-            <div class="timeline-who">Juan Ignacio Casillas · San Fernando, California</div>
-            <p class="timeline-desc">En un establo en San Fernando, California, Juan Ignacio Casillas aprendió el oficio del queso con las manos en la leche. Trabajador incansable, trajo consigo ese conocimiento cuando regresó a México para echarlo raíces en Tepatitlán.</p>
+            <div class="timeline-year">1960s</div>
+            <div class="timeline-who">Familia materna · San Fernando, California</div>
+            <p class="timeline-desc">En los campos de San Fernando, California, el lado materno de la familia vivió de cerca lo que significa trabajar con ganado de verdad. No fue quesero — fue ganadero toda su vida. Pero ese linaje, ese entendimiento de la leche desde la raíz, está en nuestra historia.</p>
           </div>
         </div>
 
         <!-- Celda 2: texto historia central -->
         <div class="timeline-cell timeline-cell-text fu d2">
           <div class="gold-rule"></div>
-          <h3 class="h-display">De California<br/>a <em>Los Altos.</em></h3>
-          <p class="body-p" style="color:rgba(255,255,255,.45);">Tepatitlán de Morelos no es solo una ciudad — es el corazón quesero de México. Sus campos, su clima y su gente forjaron una tradición que la familia Casillas adoptó como propia.</p>
-          <p class="body-p" style="color:rgba(255,255,255,.35);">Lo que comenzó con dos abuelos visionarios se convirtió en una empresa familiar que hoy produce quesos artesanales con la misma filosofía: leche fresca, manos honestas, sin atajos.</p>
+          <h3 class="h-display">De los campos<br/>a <em>la quesería.</em></h3>
+          <p class="body-p" style="color:rgba(255,255,255,.45);">La familia materna trajo el conocimiento del ganado. La familia paterna construyó la empresa. Juntas forman lo que somos: una quesería de Los Altos con raíces reales en esta tierra y en este oficio.</p>
+          <p class="body-p" style="color:rgba(255,255,255,.35);">Hoy procesamos alrededor de 1,200 litros de leche al día. Todo artesanal, sin conservadores, sin atajos. Como desde el principio.</p>
         </div>
 
-        <!-- Celda 3: texto José Luis -->
-        <div class="timeline-cell timeline-cell-text fu d2" style="background:#1e1b17;">
-          <div class="gold-rule"></div>
-          <h3 class="h-display">José Luis<br/><em>y Los Pinos.</em></h3>
-          <p class="body-p" style="color:rgba(255,255,255,.45);">El abuelo paterno, José Luis Casillas, fue un hombre de influencia y principios. Su presencia en Los Pinos junto al presidente Luis Echeverría Álvarez en los años 70 habla de una familia con visión, conexión con México y compromiso con el país.</p>
-          <p class="body-p" style="color:rgba(255,255,255,.35);">Ese espíritu — de estar presentes donde importa — vive hoy en cada decisión que tomamos como empresa.</p>
-        </div>
-
-        <!-- Celda 4: José Luis — foto Los Pinos -->
-        <div class="timeline-cell fu d3">
-          <img src="JLC_PinosSpeech2.jpeg" alt="Los Pinos, años 1970s">
+        <!-- Celda 3: José Luis — primera foto Los Pinos -->
+        <div class="timeline-cell fu d2">
+          <img src="JLC_PinosSpeech.jpeg" alt="José Luis Casillas, presidente de la Asociación de Productores de Leche">
           <div class="timeline-caption">
             <div class="timeline-year">1970s</div>
-            <div class="timeline-who">José Luis Casillas · Los Pinos, Ciudad de México</div>
-            <p class="timeline-desc">En los años 70, José Luis Casillas estuvo presente en Los Pinos junto al presidente Luis Echeverría Álvarez, testimonio de una familia con peso y presencia en la historia de México.</p>
+            <div class="timeline-who">José Luis Casillas · Presidente, Asociación de Lecheros de Los Altos</div>
+            <p class="timeline-desc">Como presidente de la Asociación de Productores de Leche de Los Altos de Jalisco, José Luis Casillas fue a Los Pinos a exponer la situación que vivían los ganaderos de la región ante el presidente Luis Echeverría Álvarez.</p>
+          </div>
+        </div>
+
+        <!-- Celda 4: José Luis — Los Pinos -->
+        <div class="timeline-cell fu d3">
+          <img src="JLC_PinosSpeech2.jpeg" alt="Los Pinos, Ciudad de México, años 1970s">
+          <div class="timeline-caption">
+            <div class="timeline-year">1980s</div>
+            <div class="timeline-who">José Luis Casillas · Fundador, Lácteos Lagunitas</div>
+            <p class="timeline-desc">La gestión de José Luis logró que LICONSA llegara a Los Altos de Jalisco, cambiando la economía lechera de toda la región. En los años 80 fundó Lácteos Lagunitas. Esa empresa, en manos de la siguiente generación, se convirtió en Lácteos Casillas. Nosotros somos la tercera generación.</p>
           </div>
         </div>
 
@@ -702,8 +722,8 @@
       <div class="filo-card fu d2">
         <div class="filo-n">02</div>
         <div class="gold-rule"></div>
-        <h3>Origen Garantizado</h3>
-        <p>Los Altos de Jalisco es la región quesera por excelencia de México. Nuestro queso lleva ese terroir auténtico en cada bocado.</p>
+        <h3>Leche de Los Altos</h3>
+        <p>Recibimos leche fresca cada mañana de Los Altos de Jalisco y la procesamos ese mismo día. La región, el ganado y el clima hacen el trabajo. Nosotros no interferimos.</p>
       </div>
       <div class="filo-card fu d3">
         <div class="filo-n">03</div>
@@ -728,8 +748,8 @@
           </h2>
         </div>
         <div class="fu d1">
-          <p class="body-p">Nuestra identidad está forjada en la tierra roja de Jalisco. La elegancia de las haciendas, el trabajo duro de nuestra gente y la rica tradición ganadera de la región — todo se funde en cada pieza que elaboramos.</p>
-          <p class="body-p">Los Altos de Jalisco produce la mejor leche del país. Nosotros la convertimos en arte.</p>
+          <p class="body-p">Los Altos de Jalisco tiene algo que no se replica: el ganado, el agua, el clima. La leche que sale de aquí sabe distinto, y lo sabe cualquiera que la haya probado fresca. Nosotros la recibimos cada mañana y ese mismo día se convierte en queso.</p>
+          <p class="body-p">Sin cámaras de maduración industrial, sin aditivos, sin conservadores. Producción pequeña, atención directa. Así hemos trabajado desde el principio.</p>
         </div>
         <div class="fu d2" style="margin-top:32px;">
           <a href="https://wa.me/5213781021928?text=Hola%2C%20me%20interesa%20pedir%20quesos%20Casillas" target="_blank" class="btn-dark">Hacer un pedido</a>
