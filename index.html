@@ -52,12 +52,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── ANIMACIONES ── */
-    .fu { opacity:0; transform:translateY(32px); transition: opacity 1s cubic-bezier(.25,.46,.45,.94), transform 1s cubic-bezier(.25,.46,.45,.94); }
-    .fu.on { opacity:1; transform:translateY(0); }
-    .fi { opacity:0; transition: opacity 1.2s ease; }
-    .fi.on { opacity:1; }
-    .d1{transition-delay:.1s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}.d4{transition-delay:.46s}.d5{transition-delay:.58s}
 
     /* ── NAV CHOBANI STYLE ── */
     nav {
@@ -157,26 +151,22 @@
     .hero-tag {
       font-size:.58rem; letter-spacing:.38em; text-transform:uppercase;
       color:var(--gold); font-weight:400; margin-bottom:24px;
-      opacity:0; animation:fu .9s .2s forwards;
     }
     .hero-h1 {
       font-family:'Cormorant Garamond',serif; font-weight:300;
       font-size:clamp(3.8rem,8.5vw,8rem); line-height:1.03; color:var(--ink);
-      margin-bottom:10px; opacity:0; animation:fu 1s .35s cubic-bezier(.25,.46,.45,.94) forwards;
+      margin-bottom:10px;
     }
     .hero-h1 em { font-style:italic; color:var(--gold); }
     .hero-sub {
       font-size:clamp(1rem,2vw,1.2rem); color:var(--ink-soft); font-weight:300;
       line-height:1.75; max-width:500px; margin:0 auto 44px;
-      opacity:0; animation:fu 1s .5s forwards;
     }
     .hero-btns {
       display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
-      opacity:0; animation:fu 1s .65s forwards;
     }
     .hero-img-wrap {
       margin-top:68px; width:100%; max-width:560px;
-      opacity:0; animation:fi 1.4s .8s ease forwards;
     }
     .hero-img-wrap img {
       width:100%; height:auto; object-fit:contain;
@@ -190,7 +180,6 @@
     .scroll-hint {
       position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
       display:flex; flex-direction:column; align-items:center; gap:7px;
-      opacity:0; animation:fi 1s 1.5s ease forwards;
     }
     .scroll-hint span { font-size:.5rem; letter-spacing:.38em; text-transform:uppercase; color:var(--ink-soft); }
     .scroll-line {
@@ -198,8 +187,6 @@
       background:linear-gradient(to bottom, var(--gold-soft), transparent);
       animation:pulse-line 2s ease-in-out infinite;
     }
-    @keyframes fu { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes fi { from{opacity:0} to{opacity:1} }
     @keyframes pulse-line { 0%,100%{opacity:.3} 50%{opacity:.8} }
 
     /* ── MARQUEE ── */
@@ -873,11 +860,6 @@
   document.getElementById('mob-x').addEventListener('click', closeMob);
   function closeMob() { document.getElementById('mob').classList.remove('open'); }
 
-  // Reveal on scroll
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
-  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-  document.querySelectorAll('.fu, .fi').forEach(el => io.observe(el));
 </script>
 </body>
 </html>

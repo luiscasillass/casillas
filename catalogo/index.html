@@ -46,12 +46,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── ANIMACIONES ── */
-    .fu { opacity:0; transform:translateY(32px); transition: opacity 1s cubic-bezier(.25,.46,.45,.94), transform 1s cubic-bezier(.25,.46,.45,.94); }
-    .fu.on { opacity:1; transform:translateY(0); }
-    .fi { opacity:0; transition: opacity 1.2s ease; }
-    .fi.on { opacity:1; }
-    .d1{transition-delay:.1s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}.d4{transition-delay:.46s}.d5{transition-delay:.58s}
 
     /* ── NAV ── */
     nav {
@@ -159,27 +153,22 @@
     .page-hero-tag {
       font-size:.58rem; letter-spacing:.38em; text-transform:uppercase;
       color:var(--gold); font-weight:400; margin-bottom:24px;
-      opacity:0; animation:fu .9s .2s forwards;
     }
     .page-hero-h1 {
       font-family:'Cormorant Garamond',serif; font-weight:300;
       font-size:clamp(3rem,6vw,5.5rem); line-height:1.06; color:var(--ink);
       margin-bottom:18px;
-      opacity:0; animation:fu 1s .35s cubic-bezier(.25,.46,.45,.94) forwards;
     }
     .page-hero-h1 em { font-style:italic; color:var(--gold); }
     .page-hero-sub {
       font-size:clamp(.88rem,1.5vw,1rem); color:var(--ink-soft); font-weight:300;
       line-height:1.75; max-width:480px; margin:0 auto;
-      opacity:0; animation:fu 1s .5s forwards;
     }
     .page-hero-rule {
       position:absolute; bottom:0; left:0; right:0; height:1px;
       background:linear-gradient(to right,transparent,var(--gold-soft),transparent);
       opacity:.3;
     }
-    @keyframes fu { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes fi { from{opacity:0} to{opacity:1} }
 
     /* ── MARQUEE ── */
     .mq-wrap { background:var(--ink); overflow:hidden; padding:13px 0; }
@@ -508,10 +497,6 @@
   document.getElementById('mob-x').addEventListener('click', closeMob);
   function closeMob() { document.getElementById('mob').classList.remove('open'); }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fu, .fi').forEach(el => observer.observe(el));
 </script>
 
 </body>
