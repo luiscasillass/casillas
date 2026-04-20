@@ -224,6 +224,11 @@
       color:var(--ink); line-height:1.2; margin-bottom:10px;
     }
     .prod-desc { font-size:.76rem; color:var(--ink-soft); line-height:1.75; margin-bottom:0; }
+    .prod-sizes { margin-top:16px; padding-top:14px; border-top:1px solid var(--ivory-dk); }
+    .sizes-label { font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-soft); display:block; margin-bottom:8px; font-weight:400; }
+    .sizes-list { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:9px; }
+    .sizes-list span { font-size:.62rem; color:var(--ink-mid); background:var(--ivory-dk); padding:3px 9px; letter-spacing:.04em; }
+    .sizes-note { font-size:.52rem; color:var(--ink-soft); opacity:.45; letter-spacing:.06em; font-style:italic; }
 
     /* ── CTA FINAL ── */
     #cta {
@@ -375,24 +380,46 @@
     <!-- Mozzarella -->
     <div class="prod-card fu d1">
       <div class="prod-card-img">
-        <img src="../mozzarella.png" alt="Mozzarella Artesanal Casillas">
+        <img src="../mozzarella.png" alt="Mozzarella Casillas">
       </div>
       <div class="prod-card-body">
-        <div class="prod-tag">500 g · Pasta Hilada</div>
-        <div class="prod-name">Mozzarella Artesanal</div>
-        <div class="prod-desc">Queso fresco de pasta hilada con textura elástica y fusión uniforme. Ideal para pizza, gratinados y platillos al horno donde el fundido lo es todo.</div>
+        <div class="prod-tag">Pasta Hilada · Fresco</div>
+        <div class="prod-name">Mozzarella</div>
+        <div class="prod-desc">Queso de pasta hilada con textura elástica y fusión uniforme. Ideal para pizza, gratinados y platillos al horno donde el fundido lo es todo.</div>
+        <div class="prod-sizes">
+          <span class="sizes-label">Presentaciones</span>
+          <div class="sizes-list">
+            <span>500 g</span>
+            <span>1 kg</span>
+            <span>2.4 kg</span>
+            <span>Rallado</span>
+            <span>Cubicado</span>
+          </div>
+          <p class="sizes-note">Imagen ilustrativa</p>
+        </div>
       </div>
     </div>
 
-    <!-- Chihuahua / Asadero -->
+    <!-- Chihuahua -->
     <div class="prod-card fu d2">
       <div class="prod-card-img">
-        <img src="../CHI500.png" alt="Queso Chihuahua Asadero Casillas">
+        <img src="../CHI500.png" alt="Queso Chihuahua Casillas">
       </div>
       <div class="prod-card-body">
-        <div class="prod-tag">Semifirme · Fundente</div>
-        <div class="prod-name">Chihuahua / Asadero</div>
+        <div class="prod-tag">Tipo Menonita · Semifirme</div>
+        <div class="prod-name">Chihuahua</div>
         <div class="prod-desc">Queso semifirme de pasta elástica, fundente y versátil. Sabor láctico suave con un ligero toque ácido. Perfecto para quesadillas, queso fundido y cocina en general.</div>
+        <div class="prod-sizes">
+          <span class="sizes-label">Presentaciones</span>
+          <div class="sizes-list">
+            <span>500 g</span>
+            <span>1 kg</span>
+            <span>2 kg</span>
+            <span>4 kg</span>
+            <span>Pieza 8 kg</span>
+          </div>
+          <p class="sizes-note">Pieza completa con capa original de encerado · Imagen ilustrativa</p>
+        </div>
       </div>
     </div>
 
@@ -404,7 +431,14 @@
       <div class="prod-card-body">
         <div class="prod-tag">Tradicional · Los Altos de Jalisco</div>
         <div class="prod-name">Adobera de Los Altos</div>
-        <div class="prod-desc">Queso tradicional de los Altos de Jalisco. Pasta firme que se deshebra con facilidad. Sabor auténtico e indispensable en la cocina jalisciense — desde tacos hasta birria.</div>
+        <div class="prod-desc">Queso tradicional de Los Altos de Jalisco. Pasta firme que se deshebra con facilidad. Sabor auténtico e indispensable en la cocina jalisciense — desde tacos hasta birria.</div>
+        <div class="prod-sizes">
+          <span class="sizes-label">Presentaciones</span>
+          <div class="sizes-list">
+            <span>5 kg</span>
+          </div>
+          <p class="sizes-note">Imagen ilustrativa</p>
+        </div>
       </div>
     </div>
 
