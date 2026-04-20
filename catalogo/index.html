@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo — Queso Casillas</title>
+  <meta name="description" content="Catálogo de quesos artesanales Casillas: Mozzarella, Chihuahua / Asadero y Adobera de Los Altos. Elaborados a mano en Tepatitlán de Morelos, Jalisco.">
+  <meta property="og:title" content="Catálogo — Queso Casillas">
+  <meta property="og:description" content="Mozzarella, Chihuahua/Asadero y Adobera artesanal de Los Altos de Jalisco. Sin conservadores, elaboración diaria.">
+  <meta property="og:image" content="https://quesocasillas.com/mozzarella.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://quesocasillas.com/catalogo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://quesocasillas.com/mozzarella.png">
+
+  <link rel="icon" type="image/svg+xml" href="../logo_vectorizado.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="theme-color" content="#F8F5EE">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── VARIABLES ── */
+    :root {
+      --gold:      #A8821E;
+      --gold-soft: #C9A84C;
+      --ivory:     #F8F5EE;
+      --ivory-dk:  #EDE8DC;
+      --ink:       #181614;
+      --ink-mid:   #3D3830;
+      --ink-soft:  #7A7060;
+      --white:     #FDFCF9;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── ANIMACIONES ── */
+    .fu { opacity:0; transform:translateY(32px); transition: opacity 1s cubic-bezier(.25,.46,.45,.94), transform 1s cubic-bezier(.25,.46,.45,.94); }
+    .fu.on { opacity:1; transform:translateY(0); }
+    .fi { opacity:0; transition: opacity 1.2s ease; }
+    .fi.on { opacity:1; }
+    .d1{transition-delay:.1s}.d2{transition-delay:.22s}.d3{transition-delay:.34s}.d4{transition-delay:.46s}.d5{transition-delay:.58s}
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; inset: 0 0 auto 0;
+      z-index: 200;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 22px 48px;
+      transition: background .5s ease, padding .4s ease, box-shadow .4s ease;
+    }
+    nav.solid {
+      background: rgba(248,245,238,.97);
+      backdrop-filter: blur(16px);
+      padding: 14px 48px;
+      box-shadow: 0 1px 0 rgba(168,130,30,.1);
+    }
+    .nav-left { display:flex; gap:32px; list-style:none; align-items:center; }
+    .nav-left a {
+      font-size:.65rem; font-weight:400; letter-spacing:.2em;
+      text-transform:uppercase; text-decoration:none;
+      color:var(--ink-mid); transition:color .3s;
+    }
+    .nav-left a:hover, .nav-left a.active { color:var(--gold); }
+    .nav-center { display:flex; justify-content:center; }
+    .nav-right { display:flex; justify-content:flex-end; align-items:center; gap:16px; }
+    .nav-cta {
+      font-size:.63rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+      text-decoration:none; color:var(--ivory); background:var(--ink);
+      padding:10px 26px; transition:background .3s;
+    }
+    .nav-cta:hover { background:var(--gold); }
+    .nav-ham { display:none; background:none; border:none; cursor:pointer; padding:4px; }
+    @media(max-width:768px){
+      nav { padding:18px 24px; display:flex; align-items:center; justify-content:flex-end; }
+      nav.solid { padding:13px 24px; }
+      .nav-center { position:absolute; left:50%; transform:translateX(-50%); }
+      .nav-left, .nav-cta { display:none; }
+      .nav-ham { display:block; }
+    }
+
+    /* ── MOBILE MENU ── */
+    #mob {
+      position:fixed; inset:0; z-index:300;
+      background:var(--ink);
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:32px;
+      opacity:0; pointer-events:none; transition:opacity .4s;
+    }
+    #mob.open { opacity:1; pointer-events:all; }
+    #mob a {
+      font-family:'Cormorant Garamond',serif; font-size:2.6rem; font-weight:300;
+      color:rgba(255,255,255,.7); text-decoration:none; transition:color .3s;
+    }
+    #mob a:hover { color:var(--gold-soft); }
+    #mob-x { position:absolute; top:24px; right:24px; background:none; border:none; cursor:pointer; }
+
+    /* ── UTILS ── */
+    .wrap { max-width:1160px; margin:0 auto; padding:0 48px; }
+    @media(max-width:768px){ .wrap { padding:0 24px; } }
+    .sec { padding:112px 48px; }
+    @media(max-width:768px){ .sec { padding:72px 24px; } }
+    .eyebrow {
+      display:block; font-size:.58rem; letter-spacing:.38em;
+      text-transform:uppercase; font-weight:400; color:var(--gold); margin-bottom:18px;
+    }
+    .h-display {
+      font-family:'Cormorant Garamond',serif; font-weight:300; line-height:1.08;
+      color:var(--ink);
+    }
+    .h-display em { font-style:italic; color:var(--gold); }
+    .body-p { font-size:.92rem; line-height:1.9; color:var(--ink-soft); margin-bottom:18px; }
+    .gold-rule { width:36px; height:1px; background:var(--gold); opacity:.5; margin-bottom:28px; }
+
+    /* BUTTONS */
+    .btn-dark {
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--ink); color:var(--ivory);
+      font-size:.65rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+      text-decoration:none; padding:14px 34px; transition:background .3s;
+    }
+    .btn-dark:hover { background:var(--gold); }
+    .btn-line {
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(24,22,20,.25); color:var(--ink-mid);
+      font-size:.65rem; font-weight:400; letter-spacing:.2em; text-transform:uppercase;
+      text-decoration:none; padding:13px 34px; transition:border-color .3s, color .3s;
+    }
+    .btn-line:hover { border-color:var(--gold); color:var(--gold); }
+    .btn-wa {
+      display:inline-flex; align-items:center; gap:10px;
+      background:#25D366; color:#fff;
+      font-size:.65rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+      text-decoration:none; padding:15px 38px; transition:background .3s, transform .3s;
+    }
+    .btn-wa:hover { background:#1db954; transform:translateY(-1px); }
+
+    /* ── PAGE HERO ── */
+    #page-hero {
+      background:var(--ivory);
+      padding:180px 24px 80px;
+      text-align:center;
+      position:relative;
+    }
+    .page-hero-tag {
+      font-size:.58rem; letter-spacing:.38em; text-transform:uppercase;
+      color:var(--gold); font-weight:400; margin-bottom:24px;
+      opacity:0; animation:fu .9s .2s forwards;
+    }
+    .page-hero-h1 {
+      font-family:'Cormorant Garamond',serif; font-weight:300;
+      font-size:clamp(3rem,6vw,5.5rem); line-height:1.06; color:var(--ink);
+      margin-bottom:18px;
+      opacity:0; animation:fu 1s .35s cubic-bezier(.25,.46,.45,.94) forwards;
+    }
+    .page-hero-h1 em { font-style:italic; color:var(--gold); }
+    .page-hero-sub {
+      font-size:clamp(.88rem,1.5vw,1rem); color:var(--ink-soft); font-weight:300;
+      line-height:1.75; max-width:480px; margin:0 auto;
+      opacity:0; animation:fu 1s .5s forwards;
+    }
+    .page-hero-rule {
+      position:absolute; bottom:0; left:0; right:0; height:1px;
+      background:linear-gradient(to right,transparent,var(--gold-soft),transparent);
+      opacity:.3;
+    }
+    @keyframes fu { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fi { from{opacity:0} to{opacity:1} }
+
+    /* ── MARQUEE ── */
+    .mq-wrap { background:var(--ink); overflow:hidden; padding:13px 0; }
+    .mq-track { display:flex; white-space:nowrap; animation:mq 30s linear infinite; }
+    .mq-item {
+      display:inline-flex; align-items:center; gap:22px; flex-shrink:0;
+      font-size:.56rem; letter-spacing:.35em; text-transform:uppercase;
+      font-weight:400; color:rgba(255,255,255,.35); padding:0 32px;
+    }
+    .mq-item strong { color:rgba(255,255,255,.65); font-weight:400; }
+    .mq-dot { width:3px; height:3px; border-radius:50%; background:var(--gold-soft); opacity:.5; }
+    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── CATÁLOGO GRID ── */
+    #catalogo { background:var(--ivory); }
+    .cat-header { text-align:center; padding:80px 48px 56px; }
+    @media(max-width:768px){ .cat-header { padding:56px 24px 40px; } }
+    .cat-header .h-display { font-size:clamp(2rem,4vw,3.2rem); }
+    .cat-header p { font-size:.88rem; color:var(--ink-soft); margin-top:14px; }
+
+    .cat-grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:2px;
+      max-width:1160px; margin:0 auto;
+    }
+    @media(max-width:900px){ .cat-grid { grid-template-columns:1fr 1fr; } }
+    @media(max-width:540px){ .cat-grid { grid-template-columns:1fr; } }
+
+    .prod-card { position:relative; overflow:hidden; background:var(--ivory-dk); }
+    .prod-card-img { aspect-ratio:3/4; overflow:hidden; }
+    .prod-card-img img {
+      width:100%; height:100%; object-fit:cover;
+      filter:grayscale(10%); transition:transform .9s cubic-bezier(.25,.46,.45,.94), filter .6s;
+    }
+    .prod-card:hover .prod-card-img img { transform:scale(1.04); filter:grayscale(0%); }
+    .prod-card-body {
+      padding:26px 24px 32px; background:var(--white);
+      border-top:1px solid var(--ivory-dk);
+    }
+    .prod-tag { font-size:.54rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); margin-bottom:7px; }
+    .prod-name {
+      font-family:'Cormorant Garamond',serif; font-size:1.55rem; font-weight:300;
+      color:var(--ink); line-height:1.2; margin-bottom:10px;
+    }
+    .prod-desc { font-size:.76rem; color:var(--ink-soft); line-height:1.75; margin-bottom:0; }
+
+    /* ── CTA FINAL ── */
+    #cta {
+      background:var(--ink); text-align:center; padding:112px 24px;
+      position:relative; overflow:hidden;
+    }
+    #cta::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse at 50% 100%, rgba(168,130,30,.08) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    #cta .h-display { color:var(--white); font-size:clamp(2.4rem,5vw,4.2rem); }
+    #cta .h-display em { color:rgba(255,255,255,.25); }
+    #cta > div > p { font-size:.82rem; color:rgba(255,255,255,.32); letter-spacing:.08em; margin-bottom:44px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--ink); border-top:1px solid rgba(255,255,255,.05);
+      padding:60px 48px 36px;
+    }
+    @media(max-width:768px){ footer { padding:44px 24px 28px; } }
+    .foot-grid {
+      display:grid; grid-template-columns:2fr 1fr 1fr;
+      gap:48px; margin-bottom:44px;
+    }
+    @media(max-width:768px){ .foot-grid { grid-template-columns:1fr; gap:32px; } }
+    .foot-brand svg { display:block; margin-bottom:18px; opacity:.55; }
+    .foot-brand p { font-size:.76rem; color:rgba(255,255,255,.25); line-height:1.8; max-width:270px; }
+    .foot-col h4 {
+      font-size:.56rem; letter-spacing:.32em; text-transform:uppercase;
+      color:rgba(255,255,255,.18); font-weight:400; margin-bottom:18px;
+    }
+    .foot-col a, .foot-col p {
+      display:block; font-size:.78rem; color:rgba(255,255,255,.35);
+      text-decoration:none; margin-bottom:10px; transition:color .3s;
+    }
+    .foot-col a:hover { color:rgba(255,255,255,.7); }
+    .foot-bottom {
+      border-top:1px solid rgba(255,255,255,.05); padding-top:24px;
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    }
+    .foot-bottom p { font-size:.58rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.13); }
+
+    /* ── WA FLOAT ── */
+    .wa-float {
+      position:fixed; bottom:26px; right:26px; z-index:90;
+      width:52px; height:52px; border-radius:50%; background:#25D366;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 18px rgba(37,211,102,.3); text-decoration:none;
+      transition:transform .3s, box-shadow .3s;
+    }
+    .wa-float:hover { transform:scale(1.1) translateY(-2px); box-shadow:0 7px 26px rgba(37,211,102,.4); }
+    .wa-float::after {
+      content:''; position:absolute; inset:-5px; border-radius:50%;
+      border:1px solid rgba(37,211,102,.25); animation:wapulse 2.5s ease infinite;
+    }
+    @keyframes wapulse { 0%{transform:scale(1);opacity:.6} 100%{transform:scale(1.55);opacity:0} }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div id="mob">
+  <button id="mob-x" aria-label="Cerrar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+  <a href="/">Inicio</a>
+  <a href="/#historia" onclick="closeMob()">Historia</a>
+  <a href="/#filosofia" onclick="closeMob()">Filosofía</a>
+  <a href="/catalogo" onclick="closeMob()" style="color:var(--gold-soft);">Catálogo</a>
+  <a href="https://wa.me/5213781021928?text=Hola%2C%20me%20interesa%20pedir%20quesos%20Casillas" target="_blank" onclick="closeMob()"
+     style="font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.25em;color:rgba(255,255,255,.4);">
+    Pedir ahora
+  </a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <ul class="nav-left">
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/#historia">Historia</a></li>
+    <li><a href="/#filosofia">Filosofía</a></li>
+    <li><a href="/catalogo" class="active">Catálogo</a></li>
+  </ul>
+  <div class="nav-center">
+    <a href="/" aria-label="Lácteos Casillas">
+      <svg width="38" height="50" viewBox="0 0 268 357" fill="var(--ink)" xmlns="http://www.w3.org/2000/svg">
+        <path d="M70.3928 14.2443C69.6046 14.6013 68.5422 15.5295 67.9938 16.2792C67.1371 17.4216 67 17.9214 67 19.9563C67 22.3125 67 22.3482 71.5923 31.059C74.1284 35.8785 76.4245 40.1625 76.6987 40.5909C77.1442 41.3406 77.11 41.4477 75.8419 42.1974C56.8557 53.8356 41.5366 72.3996 33.757 93.2127L32.489 96.6399L22.8245 93.2841C17.5468 91.4634 12.646 89.8569 11.9606 89.7498C6.20304 88.7502 2.70739 97.2111 7.23118 101.174C8.63629 102.388 33.8256 111.134 35.8475 111.098C39.0005 111.027 40.577 109.278 41.9821 104.244C49.4532 77.6118 69.6389 55.6563 96.5417 44.8035C108.605 39.9126 120.292 37.6992 134 37.6992C161.314 37.6992 186.092 48.0522 204.256 67.0803C206.826 69.7578 209.91 73.2921 211.144 74.97C217.347 83.2881 222.008 92.3202 224.99 101.852C227.115 108.635 227.423 109.313 229.034 110.313C231.261 111.741 232.769 111.42 246.855 106.529C260.46 101.816 261.454 101.317 262.38 98.9961C263.51 96.2472 262.448 92.3559 260.186 90.7851C257.753 89.1072 257.033 89.2143 246.032 92.9985C240.48 94.9263 235.785 96.5685 235.614 96.6399C235.408 96.7113 234.586 94.962 233.763 92.7843C232.015 88.0719 228.828 81.4674 226.018 76.755C218.341 63.8673 205.558 50.7654 193.186 43.0899C191.884 42.3045 190.753 41.4834 190.684 41.2335C190.582 41.0193 192.398 37.3422 194.66 33.0582C200.452 22.134 200.486 22.0983 200.486 19.992C200.486 17.9928 199.972 16.6719 198.704 15.4581C197.641 14.4228 195.619 13.566 194.249 13.566C192.706 13.6017 190.479 14.7084 189.553 15.9222C189.108 16.4934 186.606 21.063 183.967 26.061C181.328 31.059 179.135 35.2002 179.101 35.2716C179.032 35.3073 177.25 34.6647 175.091 33.8079C166.523 30.3807 157.99 28.1316 148.051 26.7036C143.596 26.061 123.959 26.061 119.777 26.7036C108.845 28.3815 97.3984 31.4874 90.6813 34.5933C89.756 34.986 88.8307 35.343 88.625 35.343C88.4194 35.343 87.8711 34.5576 87.3913 33.6294C83.313 25.7397 78.2752 16.4577 77.6583 15.7437C76.6987 14.6013 74.4711 13.566 72.9974 13.566C72.3463 13.566 71.1468 13.8873 70.3928 14.2443Z"/>
+        <path d="M170.739 75.327C168.717 76.6122 168.271 77.8617 168.271 82.1814C168.271 85.0374 168.168 86.037 167.86 86.037C167.62 86.037 165.564 85.6443 163.302 85.1802C155.419 83.538 153.363 83.3595 143.939 83.3595C134.857 83.3952 133.177 83.538 125.946 84.966C111.278 87.8934 97.1242 94.7478 85.5063 104.494C81.1196 108.171 73.8541 115.954 70.7355 120.309C58.5007 137.338 52.8117 157.044 54.1825 177.465C54.868 188.032 57.8495 199.742 61.8935 208.06C62.2362 208.774 62.1334 209.309 61.0025 211.808C53.2915 229.051 51.8864 250.436 57.1984 269.642C66.5201 303.236 95.7877 328.583 131.258 333.795C134.514 334.259 144.418 334.866 145.995 334.688C146.646 334.616 148.976 334.473 151.135 334.331C155.659 334.081 160.697 333.367 164.775 332.367C166.352 331.974 167.791 331.653 167.963 331.653C168.134 331.653 168.271 333.367 168.271 335.509C168.271 340.114 168.751 341.363 171.047 342.649C172.932 343.72 175.022 343.505 176.77 342.149C178.929 340.435 178.929 340.328 178.827 324.513C178.724 310.697 178.689 310.269 178.004 309.269C177.079 307.948 174.885 306.663 173.549 306.663C171.972 306.663 169.642 308.091 168.922 309.519C168.374 310.554 168.271 311.554 168.271 315.231V319.694L167.174 320.336C165.906 321.014 160.012 322.442 155.419 323.121C150.793 323.835 136.879 323.763 132.115 322.978C125.501 321.871 117.139 319.515 111.895 317.195C96.8158 310.59 83.7242 299.202 75.4649 285.564C70.29 276.996 67.1027 268.393 65.2178 257.754C64.361 252.899 64.361 239.333 65.2178 234.549C65.9375 230.479 67.6168 223.839 68.3708 221.947L68.9191 220.59L69.6731 221.59C70.1186 222.125 71.2153 223.625 72.1406 224.91C74.6767 228.409 81.6337 235.691 85.5063 238.94C96.9529 248.543 110.456 255.148 124.918 258.218C131.807 259.718 135.713 260.075 144.281 260.075C152.849 260.075 156.927 259.682 163.405 258.254C165.564 257.79 167.517 257.397 167.791 257.397C168.168 257.397 168.271 258.147 168.271 261.288C168.271 264.716 168.374 265.287 169.059 266.322C171.218 269.678 175.708 269.821 177.935 266.608L178.724 265.43V250.721C178.724 236.37 178.724 236.013 178.004 235.013C176.188 232.478 173.583 231.764 171.013 233.121C168.751 234.335 168.477 235.12 168.271 240.582L168.1 245.402L167.072 246.009C165.975 246.687 159.498 248.115 154.22 248.865C150.039 249.436 138.524 249.436 134.343 248.865C114.465 246.08 98.3237 237.869 85.1293 223.803C81.4966 219.912 77.9324 215.235 75.2935 210.916L74.0598 208.881L76.4245 205.204C83.9984 193.28 94.5539 183.748 107.44 177.251C120.154 170.824 131.601 168.254 146.063 168.611C153.809 168.79 157.613 169.289 164.159 170.932L168.1 171.931L168.271 176.894C168.442 182.213 168.614 182.855 170.293 184.319C172.521 186.247 176.119 185.676 177.901 183.105L178.724 181.892V167.183C178.724 152.903 178.689 152.475 178.004 151.511C175.605 148.119 171.253 148.012 169.094 151.332C168.34 152.51 168.271 152.939 168.271 156.616C168.271 158.829 168.168 160.65 167.997 160.65C167.86 160.65 167.209 160.507 166.592 160.293C164.878 159.793 158.298 158.615 154.734 158.187C139.038 156.33 122.485 158.758 107.783 165.112C93.2516 171.36 80.2286 181.784 71.0096 194.494C68.7135 197.635 68.7478 197.671 67.2056 192.102C65.4577 185.89 64.738 181.142 64.5324 174.038C64.224 164.434 65.1836 157.687 68.0623 148.548C71.4894 137.623 77.3498 127.842 85.6091 119.131C98.4265 105.601 114.363 97.4967 134 94.5693C135.611 94.3194 140.272 94.1409 144.453 94.1409C152.609 94.1409 157.921 94.7835 164.673 96.5685C166.523 97.0683 168.065 97.461 168.134 97.461C168.202 97.461 168.271 99.6387 168.271 102.28C168.271 107.707 168.511 108.599 170.43 110.099C171.355 110.848 171.972 111.027 173.48 111.027C175.708 111.027 177.284 110.099 178.278 108.171C178.861 106.993 178.895 106.029 178.827 92.5701C178.724 78.6471 178.689 78.2187 178.004 77.2191C176.188 74.6487 173.069 73.8633 170.739 75.327Z"/>
+      </svg>
+    </a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/5213781021928?text=Hola%2C%20me%20interesa%20pedir%20quesos%20Casillas%20%F0%9F%A7%80" target="_blank" class="nav-cta">Pedir ahora</a>
+    <button class="nav-ham" id="nav-ham" aria-label="Menú">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.5">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section id="page-hero">
+  <p class="page-hero-tag">Lácteos Casillas · Tepatitlán, Jalisco</p>
+  <h1 class="page-hero-h1">Nuestros<br/><em>quesos.</em></h1>
+  <p class="page-hero-sub">Elaborados a mano cada mañana con leche fresca de Los Altos. Sin conservadores, sin aditivos, sin atajos.</p>
+  <div class="page-hero-rule"></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-wrap">
+  <div class="mq-track">
+    <div class="mq-item"><strong>Queso Artesanal</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Los Altos de Jalisco<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Conservadores</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Tepatitlán de Morelos<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Leche Fresca del Día</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Hecho en México<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Elaboración Diaria</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Familia Casillas<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Aditivos</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Jalisco, México<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Queso Artesanal</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Los Altos de Jalisco<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Conservadores</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Tepatitlán de Morelos<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Leche Fresca del Día</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Hecho en México<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Elaboración Diaria</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Familia Casillas<div class="mq-dot"></div></div>
+    <div class="mq-item"><strong>Sin Aditivos</strong><div class="mq-dot"></div></div>
+    <div class="mq-item">Jalisco, México<div class="mq-dot"></div></div>
+  </div>
+</div>
+
+<!-- CATÁLOGO -->
+<section id="catalogo">
+  <div class="cat-header fu">
+    <span class="eyebrow">Colección actual</span>
+    <h2 class="h-display" style="font-size:clamp(2rem,4vw,3.2rem);">Tres quesos.<br/><em>Una tradición.</em></h2>
+    <p>Pedido directo. Escríbenos por WhatsApp y recibe queso fresco en Tepatitlán y zonas cercanas.</p>
+  </div>
+
+  <div class="cat-grid">
+
+    <!-- Mozzarella -->
+    <div class="prod-card fu d1">
+      <div class="prod-card-img">
+        <img src="../mozzarella.png" alt="Mozzarella Artesanal Casillas">
+      </div>
+      <div class="prod-card-body">
+        <div class="prod-tag">500 g · Pasta Hilada</div>
+        <div class="prod-name">Mozzarella Artesanal</div>
+        <div class="prod-desc">Queso fresco de pasta hilada con textura elástica y fusión uniforme. Ideal para pizza, gratinados y platillos al horno donde el fundido lo es todo.</div>
+      </div>
+    </div>
+
+    <!-- Chihuahua / Asadero -->
+    <div class="prod-card fu d2">
+      <div class="prod-card-img">
+        <img src="../CHI500.png" alt="Queso Chihuahua Asadero Casillas">
+      </div>
+      <div class="prod-card-body">
+        <div class="prod-tag">Semifirme · Fundente</div>
+        <div class="prod-name">Chihuahua / Asadero</div>
+        <div class="prod-desc">Queso semifirme de pasta elástica, fundente y versátil. Sabor láctico suave con un ligero toque ácido. Perfecto para quesadillas, queso fundido y cocina en general.</div>
+      </div>
+    </div>
+
+    <!-- Adobera -->
+    <div class="prod-card fu d3">
+      <div class="prod-card-img">
+        <img src="../adobera.jpeg" alt="Queso Adobera de Los Altos Casillas">
+      </div>
+      <div class="prod-card-body">
+        <div class="prod-tag">Tradicional · Los Altos de Jalisco</div>
+        <div class="prod-name">Adobera de Los Altos</div>
+        <div class="prod-desc">Queso tradicional de los Altos de Jalisco. Pasta firme que se deshebra con facilidad. Sabor auténtico e indispensable en la cocina jalisciense — desde tacos hasta birria.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA WHATSAPP -->
+<section id="cta">
+  <div class="fu" style="position:relative;z-index:1;">
+    <span class="eyebrow" style="color:var(--gold-soft);">¿Listo para probar?</span>
+    <h2 class="h-display" style="margin-bottom:14px;">Haz tu pedido<br/><em>hoy mismo.</em></h2>
+    <p>Entrega en Tepatitlán y zonas cercanas · Pedido mínimo por confirmar</p>
+    <a href="https://wa.me/5213781021928?text=Hola%2C%20me%20interesa%20pedir%20quesos%20Casillas%20%F0%9F%A7%80" target="_blank" class="btn-wa">
+      <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Escribir por WhatsApp
+    </a>
+    <p style="margin-top:18px;font-size:.63rem;color:rgba(255,255,255,.16);">
+      También: <a href="mailto:lcasillas@quesocasillas.com" style="color:rgba(255,255,255,.22);text-decoration:underline;">lcasillas@quesocasillas.com</a>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <svg width="36" height="48" viewBox="0 0 268 357" fill="rgba(255,255,255,0.5)" xmlns="http://www.w3.org/2000/svg">
+        <path d="M70.3928 14.2443C69.6046 14.6013 68.5422 15.5295 67.9938 16.2792C67.1371 17.4216 67 17.9214 67 19.9563C67 22.3125 67 22.3482 71.5923 31.059C74.1284 35.8785 76.4245 40.1625 76.6987 40.5909C77.1442 41.3406 77.11 41.4477 75.8419 42.1974C56.8557 53.8356 41.5366 72.3996 33.757 93.2127L32.489 96.6399L22.8245 93.2841C17.5468 91.4634 12.646 89.8569 11.9606 89.7498C6.20304 88.7502 2.70739 97.2111 7.23118 101.174C8.63629 102.388 33.8256 111.134 35.8475 111.098C39.0005 111.027 40.577 109.278 41.9821 104.244C49.4532 77.6118 69.6389 55.6563 96.5417 44.8035C108.605 39.9126 120.292 37.6992 134 37.6992C161.314 37.6992 186.092 48.0522 204.256 67.0803C206.826 69.7578 209.91 73.2921 211.144 74.97C217.347 83.2881 222.008 92.3202 224.99 101.852C227.115 108.635 227.423 109.313 229.034 110.313C231.261 111.741 232.769 111.42 246.855 106.529C260.46 101.816 261.454 101.317 262.38 98.9961C263.51 96.2472 262.448 92.3559 260.186 90.7851C257.753 89.1072 257.033 89.2143 246.032 92.9985C240.48 94.9263 235.785 96.5685 235.614 96.6399C235.408 96.7113 234.586 94.962 233.763 92.7843C232.015 88.0719 228.828 81.4674 226.018 76.755C218.341 63.8673 205.558 50.7654 193.186 43.0899C191.884 42.3045 190.753 41.4834 190.684 41.2335C190.582 41.0193 192.398 37.3422 194.66 33.0582C200.452 22.134 200.486 22.0983 200.486 19.992C200.486 17.9928 199.972 16.6719 198.704 15.4581C197.641 14.4228 195.619 13.566 194.249 13.566C192.706 13.6017 190.479 14.7084 189.553 15.9222C189.108 16.4934 186.606 21.063 183.967 26.061C181.328 31.059 179.135 35.2002 179.101 35.2716C179.032 35.3073 177.25 34.6647 175.091 33.8079C166.523 30.3807 157.99 28.1316 148.051 26.7036C143.596 26.061 123.959 26.061 119.777 26.7036C108.845 28.3815 97.3984 31.4874 90.6813 34.5933C89.756 34.986 88.8307 35.343 88.625 35.343C88.4194 35.343 87.8711 34.5576 87.3913 33.6294C83.313 25.7397 78.2752 16.4577 77.6583 15.7437C76.6987 14.6013 74.4711 13.566 72.9974 13.566C72.3463 13.566 71.1468 13.8873 70.3928 14.2443Z"/>
+        <path d="M170.739 75.327C168.717 76.6122 168.271 77.8617 168.271 82.1814C168.271 85.0374 168.168 86.037 167.86 86.037C167.62 86.037 165.564 85.6443 163.302 85.1802C155.419 83.538 153.363 83.3595 143.939 83.3595C134.857 83.3952 133.177 83.538 125.946 84.966C111.278 87.8934 97.1242 94.7478 85.5063 104.494C81.1196 108.171 73.8541 115.954 70.7355 120.309C58.5007 137.338 52.8117 157.044 54.1825 177.465C54.868 188.032 57.8495 199.742 61.8935 208.06C62.2362 208.774 62.1334 209.309 61.0025 211.808C53.2915 229.051 51.8864 250.436 57.1984 269.642C66.5201 303.236 95.7877 328.583 131.258 333.795C134.514 334.259 144.418 334.866 145.995 334.688C146.646 334.616 148.976 334.473 151.135 334.331C155.659 334.081 160.697 333.367 164.775 332.367C166.352 331.974 167.791 331.653 167.963 331.653C168.134 331.653 168.271 333.367 168.271 335.509C168.271 340.114 168.751 341.363 171.047 342.649C172.932 343.72 175.022 343.505 176.77 342.149C178.929 340.435 178.929 340.328 178.827 324.513C178.724 310.697 178.689 310.269 178.004 309.269C177.079 307.948 174.885 306.663 173.549 306.663C171.972 306.663 169.642 308.091 168.922 309.519C168.374 310.554 168.271 311.554 168.271 315.231V319.694L167.174 320.336C165.906 321.014 160.012 322.442 155.419 323.121C150.793 323.835 136.879 323.763 132.115 322.978C125.501 321.871 117.139 319.515 111.895 317.195C96.8158 310.59 83.7242 299.202 75.4649 285.564C70.29 276.996 67.1027 268.393 65.2178 257.754C64.361 252.899 64.361 239.333 65.2178 234.549C65.9375 230.479 67.6168 223.839 68.3708 221.947L68.9191 220.59L69.6731 221.59C70.1186 222.125 71.2153 223.625 72.1406 224.91C74.6767 228.409 81.6337 235.691 85.5063 238.94C96.9529 248.543 110.456 255.148 124.918 258.218C131.807 259.718 135.713 260.075 144.281 260.075C152.849 260.075 156.927 259.682 163.405 258.254C165.564 257.79 167.517 257.397 167.791 257.397C168.168 257.397 168.271 258.147 168.271 261.288C168.271 264.716 168.374 265.287 169.059 266.322C171.218 269.678 175.708 269.821 177.935 266.608L178.724 265.43V250.721C178.724 236.37 178.724 236.013 178.004 235.013C176.188 232.478 173.583 231.764 171.013 233.121C168.751 234.335 168.477 235.12 168.271 240.582L168.1 245.402L167.072 246.009C165.975 246.687 159.498 248.115 154.22 248.865C150.039 249.436 138.524 249.436 134.343 248.865C114.465 246.08 98.3237 237.869 85.1293 223.803C81.4966 219.912 77.9324 215.235 75.2935 210.916L74.0598 208.881L76.4245 205.204C83.9984 193.28 94.5539 183.748 107.44 177.251C120.154 170.824 131.601 168.254 146.063 168.611C153.809 168.79 157.613 169.289 164.159 170.932L168.1 171.931L168.271 176.894C168.442 182.213 168.614 182.855 170.293 184.319C172.521 186.247 176.119 185.676 177.901 183.105L178.724 181.892V167.183C178.724 152.903 178.689 152.475 178.004 151.511C175.605 148.119 171.253 148.012 169.094 151.332C168.34 152.51 168.271 152.939 168.271 156.616C168.271 158.829 168.168 160.65 167.997 160.65C167.86 160.65 167.209 160.507 166.592 160.293C164.878 159.793 158.298 158.615 154.734 158.187C139.038 156.33 122.485 158.758 107.783 165.112C93.2516 171.36 80.2286 181.784 71.0096 194.494C68.7135 197.635 68.7478 197.671 67.2056 192.102C65.4577 185.89 64.738 181.142 64.5324 174.038C64.224 164.434 65.1836 157.687 68.0623 148.548C71.4894 137.623 77.3498 127.842 85.6091 119.131C98.4265 105.601 114.363 97.4967 134 94.5693C135.611 94.3194 140.272 94.1409 144.453 94.1409C152.609 94.1409 157.921 94.7835 164.673 96.5685C166.523 97.0683 168.065 97.461 168.134 97.461C168.202 97.461 168.271 99.6387 168.271 102.28C168.271 107.707 168.511 108.599 170.43 110.099C171.355 110.848 171.972 111.027 173.48 111.027C175.708 111.027 177.284 110.099 178.278 108.171C178.861 106.993 178.895 106.029 178.827 92.5701C178.724 78.6471 178.689 78.2187 178.004 77.2191C176.188 74.6487 173.069 73.8633 170.739 75.327Z"/>
+      </svg>
+      <p>Queso artesanal de Los Altos de Jalisco. Calidad, tradición y elegancia en cada bocado. Tepatitlán de Morelos, Jalisco.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Navegación</h4>
+      <a href="/">Inicio</a>
+      <a href="/catalogo">Catálogo</a>
+      <a href="/#historia">Historia</a>
+      <a href="/#filosofia">Filosofía</a>
+    </div>
+    <div class="foot-col">
+      <h4>Contacto</h4>
+      <p>Tepatitlán de Morelos, Jalisco</p>
+      <a href="mailto:lcasillas@quesocasillas.com">lcasillas@quesocasillas.com</a>
+      <a href="https://wa.me/5213781021928" target="_blank">WhatsApp directo</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2026 Lácteos Casillas · Todos los derechos reservados</p>
+    <p>Hecho en México 🇲🇽</p>
+  </div>
+</footer>
+
+<!-- WA FLOTANTE -->
+<a href="https://wa.me/5213781021928?text=Hola%2C%20me%20interesa%20pedir%20quesos%20Casillas%20%F0%9F%A7%80" target="_blank" class="wa-float" title="Pedir por WhatsApp">
+  <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 40);
+  }, { passive: true });
+
+  document.getElementById('nav-ham').addEventListener('click', () => {
+    document.getElementById('mob').classList.add('open');
+  });
+  document.getElementById('mob-x').addEventListener('click', closeMob);
+  function closeMob() { document.getElementById('mob').classList.remove('open'); }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fu, .fi').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
